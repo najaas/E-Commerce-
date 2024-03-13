@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/showproduct.css">
+    <title></title>
+</head>
+
+<body>
+
+
+        <section class="main">
+            <div class="left-div">
+                <br>
+                <h2 class="logo">Pe - C<span style="font-weight: 100; ">art</span></h2>
+                <hr class="hr"/>
+                <ul class="nav">
+                    <li><a href="/admin/dashboard"><i class="fa fa-th-large"></i>Dashboard</a></li>
+                    <li class="active"><a href="/admin/showproduct"><i class="fa fa-user"></i> Show Product</a></li>
+                    <li><a href="/admin/category"><i class="fa fa-key"></i>Add Ctogory</a></li> 
+                    <li><a href="/admin/addproduct"><i class="fa fa-desktop"></i>Add Product</a></li>
+                    <li><a href="/admin/userlist"><i class="fa fa-gear"></i> User List</a></li>
+                    <li><a href="/admin/banner"><i class="fa fa-bullhorn"></i>Banner</a></li>
+                    <li><a href="/admin/addadmin"><i class="fa fa-user"></i>Add a Admin</a></li>
+                    <li><a href="/login"><i class="fa fa-power-off"></i>Logout</a></li>
+                </ul>
+                <br><br>
+                <img src="image/s.png" class="support">
+            </div>
+
+            <div class="right-div">
+
+
+
+
+                <div class="mainn">
+                    <br>
+                    <div class="head">
+                        <div class="col-div-6">
+                            <p class="nav"> Show Product</p>
+                        </div>
+
+                        <div class="col-div-6">
+
+
+                            <div class="profile">
+
+                                <img src="image/user.png" class="pro-img" />
+                                <p> Najas A <i class="fa fa-ellipsis-v dots" aria-hidden="true"></i></p>
+                                <div class="profile-div">
+                                    <p><i class="fa fa-user"></i> Profile</p>
+                                    <p><i class="fa fa-cogs"></i> Settings</p>
+                                    <p><a href="/login"><i class="fa fa-power-off"></i> Log Out </a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+
+
+                       <div class="product_list">
+                    <div class="product_table">
+                        <table class="main2">
+                            <div class="headname">
+                            <thead  >
+                                <tr >
+                                    <th>Product Image</th>
+                                    <th>Product Name</th>
+                                    <th>Price</th>
+                                    <th>Discount Percentage</th>
+                                    <th>Quantity</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                            </thead>
+                        </div>
+                        <div class="productss">
+                            <tbody>
+                                <% Products.forEach(product => { %>
+                                    <tr>
+                                        <td>
+                                            <div class="imgproduct"><img src="/image/<%= product.image %>" width="80px" height="60px" alt="" srcset=""></div>
+                                        </td>
+                                        <td><%= product.name %></td>
+                                        <td><%= product.price %></td>
+                                        <td><%= product.DiscountPercentage %></td>
+                                        <td><%= product.description %></td>
+                                      <td><a href="/admin/editproduct/<%=product._id %>">Edit</a></td>
+                                        <td> <a href="/admin/delete/<%= product._id %>"><button class="vaa">Delete</button></a></td>
+                                        <!-- <form action="/delete/<%= product._id %>" method="post"  onsubmit="return confirm('do you want to delete?')"></form> -->
+                                        <td>
+                                            <i class="bi bi-pencil-square"></i>
+                                        </td>
+                                        <td>
+                                            <i class="bi bi-trash-fill"></i>
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </div>
+                        </table>
+                    </div>
+                </div>
+
+                    <br /><br /><br />
+                    <!--  -->
+
+                    <div class="clearfix"></div>
+                    <br /><br />
+
+                </div>
+            </div>
+        </section>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+              $(".profile p").click(function(){
+                $(".profile-div").toggle();
+                
+              });
+              $(".noti-icon").click(function(){
+                $(".notification-div").toggle();
+              });
+            });
+            </script>
+            <!-- <script type="text/javascript">
+                $('li').click(function(){
+                $('li').removeClass("active");
+                $(this).addClass("active");
+            });
+            </script> -->
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/signup.css">
+</head>
+<body>
+     <form action="/signup" method="post">
+        <div class="container">
+            <div class="signup">
+            <h1 class="s">S</h1>
+            <h1 class="i">i</h1>
+            <h1 class="g">g</h1>
+            <h1 class="n">n</h1>
+            <h1 class="s">U</h1>
+            <h1 class="p">p</h1>
+            </div>
+            <div class="main">
+                <input class="inp" type="text" name="name" placeholder="Name" required>
+                <input class="inp email" type="text" name="email" placeholder="Email" required>
+                <input class="inp phone" type="text" name="phone" placeholder="Number" required>
+                <input class="inp password" type="text" name="password" placeholder="Password" required>
+                <input class="inp" type="text" name="confirmpassword" placeholder="Confirm Password" required><br>
+                <p style="color:red;" id="p"></p>
+               
+            </div>
+            <button class="btn">SignUP</button>
+        </div>
+     </form>    
+</body>
+<script>
+    const passwordregex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+    const emailregex=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+    const phoneregex=/^\d{10}$/
+
+    const password=document.querySelector('.password');
+    const email=document.querySelector('.email');
+    const phone=document.querySelector('.phone')
+
+   const p=document.getElementById('p'); 
+
+   email.onblur =() =>{
+       if(!emailregex.test(email.value)){
+           console.log(email);
+           p.innerHTML='incorrect email'
+    }
+    else{
+        p.innerHTML=''
+    }
+}
+phone.onblur =() =>{
+    if(!phoneregex.test(phone.value)){
+          p.innerHTML='incorrect PhoneNumber'
+    }
+    else{
+        p.innerHTML=''
+    }
+}
+password.onblur =() =>{
+ if(!passwordregex.test(password.value)){
+       p.innerHTML='incorrect password'
+ }
+ else{
+     p.innerHTML=''
+ }
+}
+
+</script>
+</html>

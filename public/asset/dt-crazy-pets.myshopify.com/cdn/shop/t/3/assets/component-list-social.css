@@ -1,0 +1,30 @@
+.list-social {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 3.5rem;
+}
+
+@media only screen and (max-width: 749px) {
+  .list-social {
+    justify-content: center;
+  }
+}
+
+.list-social__item .icon {
+  height: 4rem;
+  width: 4rem;
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.list-social__link {
+  align-items: center;
+  display: flex;
+  padding: 0.5rem;
+  color: rgb(var(--color-foreground));
+}
+
+.list-social__link:hover .icon {
+  transform: scale(1.07);
+}

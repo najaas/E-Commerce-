@@ -1,0 +1,80 @@
+/** Shopify CDN: Minification failed
+
+Line 20:2 Unexpected "{"
+Line 20:3 Expected identifier but found "%"
+Line 36:2 Unexpected "{"
+Line 36:3 Expected identifier but found "%"
+Line 40:15 Expected identifier but found "{"
+Line 40:16 Unexpected "{"
+Line 40:28 Expected ":"
+Line 40:33 Expected ":"
+Line 40:49 Expected identifier but found "{"
+Line 40:50 Unexpected "{"
+... and 27 more hidden warnings
+
+**/
+
+
+  .tabs .tablinks .tab-count { display: none; visibility: hidden; }
+  
+  {% if section.settings.enable_tab_count %}  
+  .tabs .tablinks .tab-count {
+    font-size: 60%;
+    width: 25px;
+    height: 25px;
+    position: relative;
+    top: -15px;
+    left: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: visible; 
+    border-radius: 50%;
+    background-color: var(--color-base-accent-2);
+      color: var(--color-base-background-1);
+        }
+  {% endif %}
+
+
+  .product-tab-wrapper {
+    margin-top:{{ margin_top }}px; margin-bottom:{{ margin_bottom }}px;
+  padding-top:{{ padding_top }}px; padding-bottom:{{ padding_bottom }}px;
+  }
+  {% if section.settings.show_background_image %}
+   .product-tab-wrapper {
+    background-image: url({{ section.settings.background_image | img_url: 'master' }});
+    background-repeat:repeat;background-position:center center; background-size: cover;
+  }
+  {% endif %}
+
+
+  .product-tab-wrapper .dt-sc-overlay:before {
+    background: {{ section.settings.background_color }};
+    opacity: {{ section.settings.overlay_transparency }};
+  }
+  .product-tab-wrapper .collection .grid__item > .media .image-block-heading {
+    background: none;
+  }
+  .product-tab-wrapper .collection .grid__item > .media .image-block-heading:before {
+    content: ""; display: block; width: 100%; height: 100%; position: absolute; left: 0; top: 0;
+    background: {{ section.settings.image_block_background_color }};
+    opacity: {{ section.settings.image_block_overlay_transparency }};
+    z-index: -1;
+  }
+  .product-tab-wrapper .collection .grid__item > .media .image-block-heading > *:not(.button) {
+    color: var(--color-foreground);
+      }
+ .product-tab-wrapper .collection .grid__item > .media .image-block-heading > .button {
+    color: var(--color-base-background-1);
+      }
+  .product-tab-wrapper .collection .grid__item > .media .image-block-heading:not(.color-text) > .button:not(:hover) {
+    background-color: var(--color-foreground);
+      color: var(--color-base-background-1);
+        box-shadow: 0 0 0 .2rem var(--color-foreground);
+          }
+  .product-tab-wrapper .collection .grid__item > .media .image-block-heading.color-inverse > .button:not(:hover) {
+    color: var(--color-base-outline-button-labels);
+      }
+
+.product-tab-wrapper .collection .grid__item .card__information .card__heading{font-size:1.6rem;line-height: 24px;}
+

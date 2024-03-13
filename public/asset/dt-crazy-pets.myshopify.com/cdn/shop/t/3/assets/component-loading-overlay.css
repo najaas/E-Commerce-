@@ -1,0 +1,71 @@
+.loading-overlay {
+  position: absolute;
+  z-index: 1;
+  width: 1.8rem;
+}
+@media screen and (max-width: 749px) {
+  .loading-overlay {
+    top: 0;
+    right: 0;
+  }
+}
+@media screen and (min-width: 750px) {
+  .loading-overlay {
+    left: 0;
+  }
+}
+.loading-overlay__spinner {
+  background: none;
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+}
+.loading-overlay__spinner:hover {
+  background: var(--gradient-base-accent-2);
+}
+.loading-overlay__spinner svg {
+  width: 27px;
+  height: 27px;
+  color: currentColor;
+}
+.path {
+  stroke-dasharray: 280;
+  stroke-dashoffset: 0;
+  transform-origin: center;
+  stroke: currentcolor;
+  animation: dash 1.4s ease-in-out infinite;
+  border: none;
+  fill: none;
+  stroke-width: 11px;
+}
+@media screen and (forced-colors: active) {
+  .path {
+    stroke: CanvasText;
+  }
+}
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 280;
+  }
+  50% {
+    stroke-dashoffset: 75;
+    transform: rotate(135deg);
+  }
+  to {
+    stroke-dashoffset: 280;
+    transform: rotate(450deg);
+  }
+}
+.loading-overlay:not(.hidden) + .cart-item__price-wrapper,
+.loading-overlay:not(.hidden) ~ cart-remove-button {
+  opacity: 50%;
+}
+.loading-overlay:not(.hidden) ~ cart-remove-button {
+  pointer-events: none;
+  cursor: default;
+}
+/*# sourceMappingURL=/cdn/shop/t/3/assets/component-loading-overlay.css.map?v=170826261288254143441677064160 */
