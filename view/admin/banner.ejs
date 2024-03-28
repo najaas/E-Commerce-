@@ -9,12 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/admincss/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/admincss/banner.css">
     <title></title>
 </head>
 
 <body>
-    <form action="admin/banner">
+    <!-- <form action="/admin/banner" method="post"> -->
 
 
         <section class="main">
@@ -31,6 +32,7 @@
                     <li class="active"><a href="/admin/banner"><i class="fa fa-bullhorn"></i>Banner</a></li>
                     <li><a href="/admin/addadmin"><i class="fa fa-user"></i>Add a Admin</a></li>
                     <li><a href="/login"><i class="fa fa-power-off"></i>Logout</a></li>
+             
                 </ul>
                 <br><br>
                 <img src="image/s.png" class="support">
@@ -64,13 +66,112 @@
                         </div>
                         <div class="clearfix"></div>
                     </div>
-
-                    <div class="clearfix">
-                        <h1>banner</h1>
-                    </div>
-                    <br /><br /><br />
                     <!--  -->
 
+                
+<div class="main22">
+
+                <section id="interface">
+                    <div class="navigation">
+                        <!-- <div class="n1">
+                            <div>
+                                <i id="menu-btn" class="fa-solid fa-bars"></i>
+                            </div>
+                            <div class="search">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                                <input type="text" placeholder="Search">
+                            </div>
+                        </div> -->
+            
+                        <div class="profile">
+                          <button><a href="/admin/addbanner"  class="addbannerbtn">add banner</a></button>
+                        </div>
+                    </div>
+            
+                    <h3 class="i-name">Banners</h3>
+                   
+                    <div class="board">
+                        <table width="100%"> 
+                            <thead>
+                                <tr>
+                                    <td>Image</td>
+                                    <td>Title</td>
+                                    <td>Expiry Date</td>
+                                    <td>Discription</td>
+                                    <td>Edit</td>
+                                    <td>Delete</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <%banner.forEach((data)=>{ %>
+                                <tr class="okk">
+                                    <td class="people"> 
+                                       <img src="/image/<%=data.Image %>" alt="" width="60px" height="60px">
+                                    </td>
+            
+                                    <td class="people-des">
+                                      <h5><%=data.Title %></h5>
+                                    </td>
+            
+                                    <td class="active"><%=data.Expirydate %></td>
+            
+                                    <td class="role"><%=data.Description %></td>
+            
+                                    <td class="edit"><a href="/admin/editbanner/<%=data.id%>">edit</a></td>
+                                    <td class="edit"><button onclick=" fulldelete('<%=data.id%>')">delete</button></td>
+                                </tr>
+            
+                                <%});%>
+                    
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+</div>
+</div>
+</section>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                <script>
+                    $('#menu-btn').click(function() {
+                       $('#menu').toggleClass('active')
+                    })
+                </script>
+                <script>
+                     function fulldelete(id){
+                    Swal.fire({
+                            title: "Are you sure?",
+              text: "You won't be able to revert this!",
+              icon: "warning",
+              showCancelButton: true,
+              confirmButtonColor: "#3085d6",
+              cancelButtonColor: "#d33",
+              confirmButtonText: "Yes, delete it!"
+            }).then(async(result) => {
+                        if(result.isConfirmed){
+                            const response=await fetch(`/admin/deletebanner?id=${id}`,{method:`DELETE`})
+                            if(!response.ok){
+                                throw new Error(`error is product delete section`+response.statusText)
+                            }
+                            const result=await response.json();
+                            if(result.success==true){
+                                Swal.fire({
+                       title: "Deleted!",
+                        text: "Your file has been deleted.",
+                         icon: "success"
+                       });
+                       document.querySelector('.okk').remove()
+                            }else{
+                                message.innerHTML=result.Error || "unknown error"
+                            }
+                                           
+                        }
+                    })
+                }
+                </script>
+
+
+
+                    <!-- =================== -->
                     <div class="clearfix"></div>
                     <br /><br />
 
@@ -95,7 +196,7 @@
                 $(this).addClass("active");
             });
             </script> -->
-    </form>
+    <!-- </form>     -->
 </body>
 
 </html>

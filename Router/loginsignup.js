@@ -28,8 +28,6 @@ const {
 
     newpasswordpost
 
-
-
 }=require('../controller/signuplogin')
 
 //Login Page
@@ -61,6 +59,17 @@ router.post('/forgototp',forgototppost)
 
 router.get('/newpassword',newpasswordget)
 router.post('/newpassword',newpasswordpost)
+
+
+const user=require('../controller/signuplogin')
+
+router.get('/userlogin',user.userloginget)
+router.post('/userlogin',user.userloginpost)
+
+// user signup
+
+router.get('/usersignup',user.usersignupget)
+router.post('/usersignup',user.usersignuppost)
 
 
 module.exports=router;

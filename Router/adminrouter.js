@@ -2,6 +2,8 @@ const express=require('express')
 const router=express.Router()
 const upload=require('../middleware/multer')
 const admin=require('../controller/admincontroller')
+const category=require('../controller/categorycontroller')
+const banner=require('../controller/bannercontroller')
 
 // Admin home
 
@@ -13,44 +15,67 @@ router.post('/admin',admin.adminpost)
 router.get('/addproduct',admin.productget)
 router.post('/addproduct',upload.single('image'), admin.productpost)
 
-//Dashboard
-
-router.get('/dashboard',admin.dashboardget)
-router.post('/dashboard',admin.dashboardpost)
-
 //showproduct
 
 router.get('/showproduct',admin.showproductget)
 router.post('/showproduct',admin.showproductpost)
 
+// admin product edit
+
+
+router.get('/editproduct/:productid',admin.editproductget)
+router.post('/editproduct/:productid',upload.single('image'),admin.editproductpost)
+
+    // delete product 
+router.get('/delete/:productId',admin.deleteget)
+
+
+
 //Category
 
-router.get('/category',admin.categoryget)
-router.post('/category',admin.categorypost)
+router.get('/category',category.categoryget)
+router.post('/category',category.categorypost)
 
-//Userlist
+// category delete 
 
-router.get('/userlist',admin.userlistget)
-router.post('/userlist',admin.userlistpost)
+router.delete('/fullcatdelete',category.categoryDELETE)
+
+
 
 //Banner
 
-router.get('/banner',admin.bannerget)
-router.post('/banner',admin.bannerpost)
+router.get('/banner',banner.bannerget)
+router.post('/banner',banner.bannerpost)
+
+// add banner
+
+router.get('/addbanner',banner.addbannerget)
+router.post('/addbanner',upload.single('image'),banner.addbannerpost)
+
+// Edit Banner
+
+router.get('/editbanner/:id',banner.editbannerget)
+router.post('/editbanner/:id',upload.single('image'),banner.editbannerpost)
+
+// delete banner
+
+router.delete('/deletebanner',banner.deletebanner)
 
 //Add Admin
 
 router.get('/addadmin',admin.addadminget)
 router.post('/addadmin',admin.addadminpost)
 
-// edit
+//Dashboard
+
+router.get('/dashboard',admin.dashboardget)
+router.post('/dashboard',admin.dashboardpost)
 
 
-router.get('/editproduct/:productid',admin.editproductget)
-router.post('/editproduct/:productid',upload.single('image'),admin.editproductpost)
+//Userlist
 
-            
-router.get('/delete/:productId',admin.deletepost)
+router.get('/userlist',admin.userlistget)
+router.post('/userlist',admin.userlistpost)
 
 
 module.exports=router

@@ -1,5 +1,4 @@
 const {user} = require('../model/datastore')
-// const userdata=require('../model/datastore')
 const passwordregex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 const emailregex=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const phoneregex=/^\d{10}$/
@@ -10,6 +9,8 @@ require("dotenv").config();
 // const flash=require('connect-flash');
 const flash=require('connect-flash')
 let err=''
+const bannerdata=require('../model/banner')
+
 
 module.exports={
     loginget:(req,res)=>{
@@ -22,15 +23,12 @@ module.exports={
     loginpost:async(req,res)=>{
         const Email=req.body.email
         const  Password=req.body.password
-        // const {email,password}=req.body;
         console.log(Email);
         const data= await user.findOne({email:Email,password:Password})
         
        if(data){
-        // req.session.role=user.role
         res.render('admin/home')
        }else{
-        // req.session.email=user.email
         res.render('entry/login')
        }
     },
@@ -52,7 +50,6 @@ module.exports={
             phone,
             password
         }=req.body;
-        // console.log();
 
         const data= {
             name :name,
@@ -60,17 +57,12 @@ module.exports={
             phone:phone, 
             password:password
         } 
-        // console.log(data);
         const newuser=await user.create(data)
         newuser.save()
 
         console.log(newuser);
         if(email){
             req.session.email = email ;
-            // otpsender(email,)
-        //  const {email}=req.session.email
-        //  console.log(email);
-            console.log("hahahahahahaha");
         }
         console.log(req.session.email)
        res.redirect("/email")
@@ -79,20 +71,13 @@ module.exports={
 },
 
     otpget:(req,res)=>{
-        // console.log('otp get');
-       
         const email=req.session.email;
-        
         otpsender(email,otpcode)
         res.render('Entry/email')  
   },
     otppost:(req,res)=>{
         const {otp}=req.body;
-        // const otp = [ '4', '1', '7', '9' ];
         const otpp = otp.join('');
-         // Output: '4179'
-
-        // const otpp = '4179';
 const otp1 = parseInt(otpp);
 
         console.log(otpcode);
@@ -114,13 +99,9 @@ const otp1 = parseInt(otpp);
         const forgot= await user.findOne({email:email})
         otpsender(email,otpcode)
         if(forgot){
-            console.log('Forgot Password Ready');
             res.render('Entry/forgototp')
         }else{
-            // req.flash("error","This Email is not Registered")
             res.render('Entry/forgot')
-            // alert("Message sent!");
-
         }
     },
     forgototpget:(req,res)=>{
@@ -158,5 +139,17 @@ const otp1 = parseInt(otpp);
             await user.updateOne({email:email},{$set:{password:password}});
         res.render('entry/login')
     }
+    },
+    userloginget:(req,res)=>{
+        res.render('Entry/userlogin')
+    },
+    userloginpost:async(req,res)=>{
+      res.redirect('/userhome')
+    },
+    usersignupget:(req,res)=>{
+        res.render('Entry/usersignup')
+    },
+    usersignuppost:(req,res)=>{
+        res.redirect('/userlogin')
     }
 }

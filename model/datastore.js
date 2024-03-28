@@ -1,10 +1,8 @@
-// const { truncate } = require('fs/promises');
+
 const mongoose=require('mongoose')
 
-// mongoose.connect("mongodb://localhost:27017/pe-cart")
 
-
-const Signup=new mongoose.Schema({
+const Signup=new mongoose.Schema({ 
     name:{
         type:String,
         // required:true
@@ -45,6 +43,9 @@ const productschema=new mongoose.Schema({
         type:Number,
         // required:true
     },
+    category:{
+        type:String
+    },
     description:{
         type:String,
         // required:true
@@ -54,7 +55,6 @@ const productschema=new mongoose.Schema({
         // required:true
     }
 })
-
 
 
 

@@ -28,14 +28,13 @@ body{
 }
 .right-div{
 	/* width: 76%; */
-  width: 1000px;
+  width: 70%;
 	float:left;
 	height: 80vh;
 	background: var(--white);
 	margin: 25px;
 	border-radius: 25px;
 	padding: 30px;
-   
 }
 .logo{
 	text-align: center;

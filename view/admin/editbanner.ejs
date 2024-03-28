@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/admincss/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/admincss/addproduct.css">
+    <title></title>
+</head>
+
+<body>
+    <form action="/admin/editbanner/<%=data.id%>"  id="form" method="post" enctype="multipart/form-data" >
+
+
+        <section class="main">
+          
+
+            <div class="right-div">
+
+
+
+
+                <div id="main">
+                    <br>
+                    <div class="head">
+                        <!-- <div class="col-div-6">
+                            <p class="nav"> Add Product</p>
+                        </div> -->
+
+                        <div class="profile">
+
+
+                            <div class="profile">
+
+                                <img src="image/user.png" class="pro-img" />
+                                <p> Najas A <i class="fa fa-ellipsis-v dots" aria-hidden="true"></i></p>
+                                <div class="profile-div">
+                                    <p><i class="fa fa-user"></i> Profile</p>
+                                    <p><i class="fa fa-cogs"></i> Settings</p>
+                                    <p><a href="/login"><i class="fa fa-power-off"></i> Log Out </a></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="clearfix"></div> -->
+                    </div>
+
+                    <div class="headadd">
+                        <br>
+                        <h1>Edit Banner</h1>
+                        <br>
+
+                        <div class="container2">
+                            <img src="/image/<%= data.Image%>" alt="" style="width: 100px;height: 100px;">
+                            <label for="image">Image</label>
+                            <input type="file"  accept="image/*"  id="image" name="image">
+                       <br>
+                            <label for="name" id="name" >Title</label>
+                            <input type="text" value="<%=data.Title %>" id="title"  name="title" required >
+                            
+                            <label for="Date">Expiry Date</label>
+                            <input type="date" value="<%=data.Expirydate.toISOString().substring(0, 10)%>" name="expirydate" required>
+                        
+                            <label for="description">Description</label><br>
+                            <textarea placeholder="Discription" name="description" id="description" cols="50" rows="4"> <%= data.Description%></textarea>
+
+                            <button type="submit">Add</button>
+                        </div>
+
+                    </div>
+                    <br /><br /><br />
+                    <!--  -->
+
+                    <div class="clearfix"></div>
+                    <br /><br />
+
+                </div>
+            </div>
+        </section>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+              $(".profile p").click(function(){
+                $(".profile-div").toggle();
+                
+              });
+              $(".noti-icon").click(function(){
+                $(".notification-div").toggle();
+              });
+            });
+            </script>
+           
+    </form>
+</body>
+
+</html>

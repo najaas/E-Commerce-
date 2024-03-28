@@ -1,0 +1,149 @@
+.base {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    margin: -8px;
+    background: #2d3454;
+  } 
+  
+  .appframe{
+    margin: 15px;
+    position: relative;
+    height: 500px;
+    width: 550px;
+    border-radius: 20px;
+    background: #141725;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    user-select: none;
+    color: #5cbdbb;
+  }
+  .top{
+    width: 90%;
+    padding-left: 10px;
+    position: absolute;
+    top: 10px;
+    font-family: 'Patrick Hand SC', cursive;
+    font-size: 13px;
+  }
+  .appframe2{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    position: absolute;
+    top: 0px;
+  }
+  
+  .appframe3{
+    width: 200px;
+    position: relative;
+    margin-top: 10px;
+    padding: 10px;
+     border: 1px solid;
+    border-radius: 10px;
+    font-size: 16px;
+    font-family: 'Patrick Hand SC', cursive;
+  }
+  
+  .appframe5{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 50px;
+    width: 200px;
+    position: absolute;
+    bottom: 90px;
+  }
+  
+  .logo{
+    font-family: 'Nanum Pen Script', cursive;
+  }
+  .login{
+    position: relative;
+    height: 40px;
+    width: 100%;
+    background: rgb(92,189,187);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    font-family: 'Patrick Hand SC', cursive;
+      font-size: 26px;
+    font-weight:bold;
+  }
+  .btn {
+      position: relative;
+      padding:10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin-bottom:-45%;
+       background: rgb(92,189,187);
+      border-radius: 5px;
+      font-family: 'Patrick Hand SC', cursive;
+      font-size: 18px;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      overflow: hidden;
+  }
+  
+  .btn:active{
+    -webkit-transform: translateY(4px);
+    transform: translateY(4px);
+  }
+  
+  .paw1{
+    position: absolute;
+    bottom: 0;
+    right: 24px;
+    height: 120px;
+    width: 44px;
+    border-radius: 100px 100px 0 0;
+    background: #747f90;
+    text-align: center;
+    padding-top: 5px;
+    color: pink;
+  }
+  
+  .paw2{
+    position: absolute;
+    bottom: 0;
+    left: auto;
+    right: 20%;
+    height: 80px;
+    width: 40px;
+    border-radius: 100px 100px 0 0;
+    background: #fff;
+    text-align: center;
+    padding-top: 5px;
+    color: pink;
+  }
+  .main{
+    width: 100%;
+    height: 97vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  input{
+    width: 90%;
+    height: 90%;
+    background: none;
+    border: none;
+    outline: none;
+    color: white;
+  }
+  
+  

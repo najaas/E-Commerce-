@@ -1,4 +1,5 @@
 const {Product}=require('../model/datastore')
+const categoryes=require('../model/category')
 
 
 module.exports={
@@ -6,19 +7,20 @@ module.exports={
         res.render('admin/home')
     },
     adminpost:(req,res)=>{
-        res.redirect('admin/addproduct')
+        res.redirect('/admin/addproduct')
     },
-    productget:(req,res)=>{
-        res.render('admin/addproduct')
+    productget:async(req,res)=>{
+        const category=await categoryes.find()
+        res.render('admin/addproduct',{category})
     },
     productpost:async(req,res)=>{
-        try{const {
+           try{const {
             name,
             price,
             description,
-            DiscountPercentage
+            DiscountPercentage,
+            category
         }=req.body
-    console.log('all set',req.body);
 
     const image =req.file.filename
 
@@ -27,7 +29,8 @@ module.exports={
         price,
         description,
         DiscountPercentage,
-        image
+        image,
+        category
     })
     await newproduct.save()
         res.redirect('/admin/showproduct')
@@ -47,13 +50,11 @@ module.exports={
         res.render('admin/showproduct',{Products:product})
     },
     showproductpost:(req,res)=>{
-        res.render('admin/showproduct')
+        res.redirect('/admin/showproduct')
     },
     editproductget:async (req,res)=>{
         const producId = req.params.productid
-
         const product = await  Product.findById(producId)
-        console.log(product)
         res.render('admin/editproduct',{product})
     },
     editproductpost:async(req,res)=>{
@@ -75,29 +76,17 @@ module.exports={
         res.redirect('/admin/showproduct')
 
     },
-    deletepost:async(req,res)=>{
+    deleteget:async(req,res)=>{
         const productId = req.params.productId
+        console.log(productId);
         await Product.findByIdAndDelete(productId)
         res.redirect('/admin/showproduct')
-    },
-
-    categoryget:(req,res)=>{
-        res.render('admin/category')
-    },
-    categorypost:(req,res)=>{
-        res.render('admin/cotegory')
     },
     userlistget:(req,res)=>{
         res.render('admin/userlist')
     },
     userlistpost:(req,res)=>{
         res.render('admin/userlist')
-    },
-    bannerget:(req,res)=>{
-        res.render('admin/banner')
-    },
-    bannerpost:(req,res)=>{
-        res.render('admin/banner')
     },
     addadminget:(req,res)=>{
         res.render("admin/addadmin")

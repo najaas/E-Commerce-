@@ -1,0 +1,60 @@
+.main22 {
+    padding: 20px; /* Add padding to the container */
+}
+
+#interface {
+    background-color: #fff; /* Set background color for the section */
+    border-radius: 10px; /* Add border radius to give a rounded appearance */
+    padding: 20px; /* Add padding to the section */
+}
+
+.navigation {
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px; /* Add margin to separate from the content */
+}
+
+.search {
+    display: flex;
+    align-items: center;
+}
+
+input[type="text"] {
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.board {
+    margin-top: 20px; /* Add margin to separate from the navigation */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse; /* Collapse borders */
+}
+
+th, td {
+    border: 1px solid #ddd; /* Add borders to table cells */
+    padding: 8px;
+    text-align: left;
+}
+
+tr.okk:nth-child(even) {
+    background-color: #f2f2f2; /* Alternate row background color */
+}
+
+.edit button {
+    background-color: #4CAF50; /* Green background color for edit button */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 5px; /* Add margin between buttons */
+}
+
+.edit button:hover {
+    background-color: #45a049; /* Darker green color on hover */
+}

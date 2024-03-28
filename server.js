@@ -15,6 +15,8 @@ databaseconnection().then(()=>{
 const loginrouter=require('./Router/loginsignup')
 const signuprouter=require('./Router/loginsignup')
 const adminrouter=require('./Router/adminrouter')
+const userrouter=require('./Router/userrouter')
+
 
 app.use(session({
     secret:'helloGFIOHKJHJKEhkjh',
@@ -33,3 +35,4 @@ app.set('view engine','ejs')
 app.use('/',loginrouter)
 app.use('/signup',signuprouter)
 app.use('/admin',adminrouter)
+app.use('/',userrouter)

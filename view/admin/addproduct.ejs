@@ -9,8 +9,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/home.css" type="text/css">
-    <link rel="stylesheet" href="/css/addproduct.css">
+    <link rel="stylesheet" href="/css/admincss/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/admincss/addproduct.css">
     <title></title>
 </head>
 
@@ -74,18 +74,29 @@
                         <div class="container2">
                             <label for="image">Image</label>
                             <input type="file" accept="image/*"placeholder="Product image" id="image" name="image" required >
-                       <br>
+                            <br>
                             <label for="name" id="name" >Name</label>
                             <input type="text" placeholder="Product name" id="name" name="name" required >
+                           
+                            <label for="category" id="category" >Category</label>
+                            
+                            <select name="category" id="name" name="category" required >
+                                
+                            <option value="">Select Category</option>
+                            <% category.forEach((data) => { %>
+                            <option value="<%= data.category %>"><%= data.category %></option>
+                            <% }) %>
+                        </select>
                             
                             <label for="price">Price</label>
                             <input type="number" placeholder="product price" id="price" name="price" required >
-                        
+                            
                             <label for="description">Description</label><br>
                             <textarea placeholder="Product Discription" name="description" id="description" cols="50" rows="4"></textarea>
             
                             <label for="price">Discount Percentage</label>
                             <input type="number" placeholder="product price" id="price" name="DiscountPercentage" required >
+
 
                             <button type="submit">Add</button>
                         </div>

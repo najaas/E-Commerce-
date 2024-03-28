@@ -9,12 +9,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="/css/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/admincss/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/admincss/category.css">
     <title></title>
 </head>
 
 <body>
-    <form action="admin/category">
+    <!-- <form action="/admin/category" method="post"> -->
 
 
         <section class="main">
@@ -37,8 +38,6 @@
             </div>
 
             <div class="right-div">
-
-
 
 
                 <div id="main">
@@ -69,7 +68,155 @@
                         <h1>category</h1>
                     </div>
                     <br /><br /><br />
+
                     <!--  -->
+<div class="don">
+                    <section id="interface">
+                        <div class="navigation">
+                            <div class="n1">
+                                <div>
+                                    <i id="menu-btn" class="fa-solid fa-bars"></i>
+                                </div>
+                                <div class="search">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                    <input type="text" placeholder="Search">
+                                    
+                                </div>
+                                
+                            </div>
+                        
+                            <div class="profile">
+                                <a  class="category" id="add">Add Category</a>
+                            </div>
+                        </div>
+                
+                        <h3 class="i-name">categories and subcategories</h3>
+                       
+                          
+                
+                        <div class="categoriesAdd" id="forms" style="display: none;" >
+                            <form action="/admin/category" method="post">
+                                <div class="exit" id="exitForm">
+                                    <i class="fa-solid fa-circle-xmark" style="color: #e81756;"></i>
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoryName">Category Name:</label>
+                                    <input type="text" id="categoryName" name="categoryname" >
+                                </div>
+                                <div class="form-group">
+                                    <label for="subcategoryName">Subcategory Name:</label>
+                                    <input type="text" id="subcategoryName" name="subcategoryname">
+                                </div>
+                                <button type="submit">Add</button>
+                            </form>
+                        </div>
+                
+                        <div class="board">
+                            <table width="100%"> 
+                                <thead>
+                                    <tr>
+                                        <td>Category</td>
+                                        <td>subcategory</td>
+                                        <td>Delete</td>
+                                        <!-- <td>Edit</td> -->
+                                        <!-- <td></td> -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                
+                                    <tr class="hi">
+                                        <% categories.forEach((data)=>{ %>
+                                    
+                                        <td class="people"> 
+                                            <div class="people-de">
+                                                <h5><%=data.category%></h5>
+                                    
+                                            </div>
+                                        </td>
+                
+                                        <td class="people-des">
+                                            <% data.subcategory.forEach((sub)=>{ %>
+                                                <p class="subcat1<%=sub%>" id="subcat1"><span><%=sub%></span>
+                                                    <% })%>
+                                        </td>
+                
+                                        <td class="active">
+                                            <button class="fulldeletebtn" onclick="fulldelete('<%=data.id%>')">delete</button>
+                                        </td>
+                
+                
+                                        <!-- <td class="edit"><a href=""><button class="fulldeletebtn">Edit</button></a></td> -->
+                                    </tr>
+                                    
+                                    <% })%>
+                                </tbody>
+                                
+                            </table>
+                        </div>
+                    </section>
+</div>
+                    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                
+                    <script>
+                        $('#menu-btn').click(function() {
+                           $('#menu').toggleClass('active')
+                        })
+                    </script>
+               
+                <script>
+                    function fulldelete(id){
+                        Swal.fire({
+                                title: "Are you sure?",
+                  text: "You won't be able to revert this!",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonColor: "#3085d6",
+                  cancelButtonColor: "#d33",
+                  confirmButtonText: "Yes, delete it!"
+                }).then(async(result) => {
+                            if(result.isConfirmed){
+                                const response=await fetch(`/admin/fullcatdelete?id=${id}`,{method:`DELETE`})
+                                if(!response.ok){
+                                    throw new Error(`error fullcategory`+response.statusText)
+                                }
+                                const result=await response.json();
+                                if(result.success==true){
+                                    Swal.fire({
+                           title: "Deleted!",
+                            text: "Your file has been deleted.",
+                             icon: "success"
+                           });
+                           document.querySelector('.hi').remove()
+                                }else{
+                                    message.innerHTML=result.Error || "unknown error"
+                                }
+                                               
+                            }
+                        })
+                    }
+                </script>
+                     <script>
+                        
+                        const category =document.getElementById("add")
+                        const addform = document.getElementById('forms')
+                        category.addEventListener('click',(event)=>{
+                            event.preventDefault()
+                            if(addform.style.display='none'){
+                                addform.style.display='block'
+                            }
+                        })
+                        const exit = document.getElementById('exitForm')
+                        exit.addEventListener('click',(event)=>{
+                            event.preventDefault()
+                            if(addform.style.display='block'){
+                                addform.style.display='none'
+                            }
+                        })
+                
+                        </script>
+                        
+
+
 
                     <div class="clearfix"></div>
                     <br /><br />
@@ -95,7 +242,7 @@
                 $(this).addClass("active");
             });
             </script> -->
-    </form>
+    <!-- </form> -->
 </body>
 
 </html>
