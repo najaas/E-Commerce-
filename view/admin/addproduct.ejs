@@ -26,7 +26,7 @@
                 <ul class="nav">
                     <li><a href="/admin/dashboard"><i class="fa fa-th-large"></i>Dashboard</a></li>
                     <li><a href="/admin/showproduct"><i class="fa fa-user"></i> Show Product</a></li>
-                    <li><a href="/admin/category"><i class="fa fa-key"></i>Add Ctogory</a></li> 
+                    <li><a href="/admin/category"><i class="fa fa-key"></i>Add Category</a></li> 
                     <li class="active"><a href="/admin/addproduct"><i class="fa fa-desktop"></i>Add Product</a></li>
                     <li><a href="/admin/userlist"><i class="fa fa-gear"></i> User List</a></li>
                     <li><a href="/admin/banner"><i class="fa fa-bullhorn"></i>Banner</a></li>
@@ -73,9 +73,35 @@
 
                         <div class="container2">
                             <label for="image">Image</label>
-                            <input type="file" accept="image/*"placeholder="Product image" id="image" name="image" required >
+                            <input type="file" accept="image/*"placeholder="Product image" id="image" name="image" multiple >
                             <br>
                             <label for="name" id="name" >Name</label>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            
                             <input type="text" placeholder="Product name" id="name" name="name" required >
                            
                             <label for="category" id="category" >Category</label>
@@ -91,11 +117,11 @@
                             <label for="price">Price</label>
                             <input type="number" placeholder="product price" id="price" name="price" required >
                             
+                             <label for="price">Discount Percentage</label>
+                            <input type="number" placeholder="product price" id="discount" name="DiscountPercentage" required >
+                            
                             <label for="description">Description</label><br>
                             <textarea placeholder="Product Discription" name="description" id="description" cols="50" rows="4"></textarea>
-            
-                            <label for="price">Discount Percentage</label>
-                            <input type="number" placeholder="product price" id="price" name="DiscountPercentage" required >
 
 
                             <button type="submit">Add</button>

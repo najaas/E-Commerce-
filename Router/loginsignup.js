@@ -63,6 +63,8 @@ router.post('/newpassword',newpasswordpost)
 
 const user=require('../controller/signuplogin')
 
+// user login
+
 router.get('/userlogin',user.userloginget)
 router.post('/userlogin',user.userloginpost)
 
@@ -70,6 +72,11 @@ router.post('/userlogin',user.userloginpost)
 
 router.get('/usersignup',user.usersignupget)
 router.post('/usersignup',user.usersignuppost)
+
+// user Otp
+
+router.get('/userotp',user.userotpget)
+router.post('/userotp',user.userotppost)
 
 
 module.exports=router;

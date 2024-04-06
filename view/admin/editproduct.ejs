@@ -146,7 +146,7 @@ h2 {
     <div class="container4">
  <img src="/image/<%= product.image%>" alt="" style="width: 100px;height: 100px;">
                    <label for="image">Image</label>
-                    <input type="file" accept="image/*"placeholder="Product image" id="image" name="image" required >
+                    <input type="file" accept="image/*"placeholder="Product image" id="image" value="<%= product.image %>" name="image" >
 
                     <label for="productName">Product Name</label>
                     <input type="text" id="name" name="name" placeholder="Name" value="<%= product.name%>" required>

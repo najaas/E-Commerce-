@@ -1,4 +1,6 @@
 const {user} = require('../model/datastore')
+const userdetails = require('../model/userdetails')
+const session=require("express-session")
 const passwordregex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
 const emailregex=/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const phoneregex=/^\d{10}$/
@@ -144,12 +146,80 @@ const otp1 = parseInt(otpp);
         res.render('Entry/userlogin')
     },
     userloginpost:async(req,res)=>{
-      res.redirect('/userhome')
+        const {email,password}=req.body;
+        // console.log(email+'  heeee  '+password);
+        const login= await userdetails.findOne( {'email':email, 'password':password});
+        req.session.user=login._id
+        // console.log(login._id);
+        if(login){
+            req.session.userid=login._id;
+            console.log(req.session.userid)
+            res.redirect('/userhome')
+        }
+        else{
+            res.send('invalid credentials')
+        }
+
     },
     usersignupget:(req,res)=>{
         res.render('Entry/usersignup')
     },
-    usersignuppost:(req,res)=>{
-        res.redirect('/userlogin')
+    usersignuppost:async(req,res)=>{
+        const {email,name,number,password,confirmpassword}=req.body;
+        const same=password===confirmpassword;
+        const names=await userdetails.findOne({name});
+        const emails=await userdetails.findOne({email});
+        const  numbers=await userdetails.findOne({number})
+        if(names){
+            res.send('Name Already Exists') 
+        }
+        else if(emails){
+            res.send('Email Already Exists') 
+        }
+        else if(numbers){
+            res.send('Phone Number Already Exists') 
+        }
+        else if( ! emailregex.test(req.body.email)){
+             res.send('correct fill in the Email') 
+        }else if(! passwordregex.test(req.body.password)){
+                res.send('correct fill in the Password') 
+        }else if(! phoneregex.test(req.body.number)){
+                res.send('correct fill in the Phone Number') 
+        }
+         else if(!same){
+            res.send('Password is Not Same') 
+        }
+        else{
+        req.session.email=email;
+
+        const user={
+            email:email,
+            name:name,
+            number:number,
+            password:password,
+            confirmpassword:confirmpassword
+        }
+        const emails=req.session.email;
+        otpsender(emails,otpcode)
+        
+        const newuser=await userdetails.create(user);
+       
+        res.redirect('/userotp')
+
     }
+},
+userotpget:(req,res)=>{
+    res.render('Entry/userotp')
+},
+userotppost:(req,res)=>{
+    const {userotp}=req.body;
+    const otpp = userotp.join('');
+const otp2 = parseInt(otpp);
+    if (otp2===otpcode){
+    res.redirect('/userhome')
+           }else{
+            res.redirect('/userotp')
+           }
+    
+}
 }

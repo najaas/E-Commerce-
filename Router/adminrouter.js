@@ -13,7 +13,7 @@ router.post('/admin',admin.adminpost)
 //Product Add
 
 router.get('/addproduct',admin.productget)
-router.post('/addproduct',upload.single('image'), admin.productpost)
+router.post('/addproduct',upload.array('image',4), admin.productpost)
 
 //showproduct
 
@@ -28,6 +28,10 @@ router.post('/editproduct/:productid',upload.single('image'),admin.editproductpo
 
     // delete product 
 router.get('/delete/:productId',admin.deleteget)
+
+// Discount 
+
+// router.get('/userhome/:id',admin.productdiscountget)
 
 
 

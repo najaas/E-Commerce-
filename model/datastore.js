@@ -32,7 +32,7 @@ const Signup=new mongoose.Schema({
 
 const productschema=new mongoose.Schema({
     image:{
-        type:String,
+        type:Array,
         // required:true
     },
     name:{
@@ -51,15 +51,18 @@ const productschema=new mongoose.Schema({
         // required:true
     },
     DiscountPercentage:{
-        type:String,
+        type:Number,
         // required:true
+    },
+    prizePercenttage:{
+        type:Number
     }
 })
 
 
 
 module.exports={
-    user:mongoose.model('Userdatastore',Signup),
+    user:mongoose.model('Admindatastore',Signup),
     Product:mongoose.model('products',productschema)
 
 }

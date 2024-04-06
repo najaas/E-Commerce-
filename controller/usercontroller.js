@@ -56,5 +56,15 @@ if(search=="Toys"){
     },
     userpost:(req,res)=>{
         res.render('userhome')
+    },
+    productdetailsget:async(req,res)=>{
+        const  productid = req.params.id;
+        const product=await Product.findById(productid)
+        // console.log(product);
+        res.render('user/productdetails',{product})
+    },
+    productdetailspost:(req,res)=>{
+        const details=req.query.id;
+        res.redirect('/user/productdetails')
     }
 }

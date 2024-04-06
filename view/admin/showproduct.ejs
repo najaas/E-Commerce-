@@ -25,7 +25,7 @@
                 <ul class="nav">
                     <li><a href="/admin/dashboard"><i class="fa fa-th-large"></i>Dashboard</a></li>
                     <li class="active"><a href="/admin/showproduct"><i class="fa fa-user"></i> Show Product</a></li>
-                    <li><a href="/admin/category"><i class="fa fa-key"></i>Add Ctogory</a></li> 
+                    <li><a href="/admin/category"><i class="fa fa-key"></i>Add Category</a></li> 
                     <li><a href="/admin/addproduct"><i class="fa fa-desktop"></i>Add Product</a></li>
                     <li><a href="/admin/userlist"><i class="fa fa-gear"></i> User List</a></li>
                     <li><a href="/admin/banner"><i class="fa fa-bullhorn"></i>Banner</a></li>
@@ -88,11 +88,11 @@
                                 <% Products.forEach(product => { %>
                                     <tr>
                                         <td>
-                                            <div class="imgproduct"><img src="/image/<%= product.image %>" width="80px" height="60px" alt="" srcset=""></div>
+                                            <div class="imgproduct"><img src="/image/<%= product.image[0] %>" width="80px" height="60px" alt="" srcset=""></div>
                                         </td>
                                         <td><%= product.name %></td>
                                         <td><%= product.price %></td>
-                                        <td><%= product.DiscountPercentage %></td>
+                                        <td><%= product.DiscountPercentage %>%</td>
                                         <td><%= product.description %></td>
                                         <td><%= product.category %></td>
                                       <td><a href="/admin/editproduct/<%=product._id %>">Edit</a></td>
