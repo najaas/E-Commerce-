@@ -65,6 +65,7 @@ if(search=="Toys"){
     },
     productdetailspost:(req,res)=>{
         const details=req.query.id;
-        res.redirect('/user/productdetails')
+        console.log(details);
+        // res.redirect('/user/productdetails')
     }
 }

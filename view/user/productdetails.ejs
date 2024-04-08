@@ -153,7 +153,6 @@
             <div class="btn-group">
 
               <div class="counter-wrapper">
-
                 <button class="counter-btn" data-qty-minus>
                   <ion-icon name="remove-outline"></ion-icon>
                 </button>
@@ -165,8 +164,8 @@
                 </button>
 
               </div>
-              <a href="/cart/<%= product._id %>">
-              <button class="cart-btn">
+              <a>
+              <button class="cart-btn"  onclick="addToCart('<%= product.id%>')">
                 <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
 
                <span class="span">Add to cart</span>
@@ -197,6 +196,23 @@
   -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+
+    async function addToCart(id){
+    try {
+      const response = await axios.get('/cart/'+id)
+
+      
+    } catch (error) {
+      console.log(error);
+    }
+    }
+    
+        </script>
+
+
 </body>
 
 </html>
