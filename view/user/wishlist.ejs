@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./users/css/wishlist.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+  
+  <div class="container">
+    <div class="text"><h2>wishlist</h2></div>
+    <div class="main">
+    <div class="content">
+    <% data.forEach((wishlist)=> { %>
+      <%console.log(wishlist); %>
+      <div class="box remove<%=wishlist._id%>">
+        <div class="imageArea">
+        <a href="/productdetails/<%=wishlist._id %>"  >  <img src="/productImages/<%= wishlist.Image[0] %>" alt="" width="90%" height="90%">
+        </a> </div>
+        <div class="textarea">
+          <div class="heading">
+            <h1><%= wishlist.productName %></h1>
+          </div>
+          <div class="buttons">
+            <button   type="button" >Add to cart</button>
+            <button   class="btnremove" type="button" onclick="toDelete(event,'<%=wishlist._id%>')">Remove</button>
+          </div>
+        </div>
+      </div>
+      <%  }) %>
+    </div>
+  </div>
+</div>
+</body>
+<script>
+  async function toDelete(e,id){
+    e.preventDefault();
+    const response=await axios.delete('/wishlist/delete/'+id)
+    if (response.data.message==true) {
+      document.querySelector(`.remove${id}`).remove()
+      }else{
+        console.log('remove failed');
+      }
+  }
+</script>
+</html>
