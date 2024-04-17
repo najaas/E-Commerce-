@@ -4,7 +4,7 @@ const { Product } = require("../model/datastore");
 const { ObjectId } = require('mongodb');
 
 module.exports = {
-  cartget: async (req, res) => {
+  cartget: async (req, res) => { 
     const productId = req.params.id;
     const userId =new ObjectId(req.session.userid);
     // console.log(userId);
@@ -68,7 +68,14 @@ const cart = await Cart.findOneAndUpdate(
 )
 }catch(error){
     console.log("error in removing category",error);
-              res.status(500).json({success:false,message:"something wrong"})
+    res.status(500).json({success:false,message:"something wrong"})
   }
+ },
+ updatecartpost:async(req,res)=>{
+  userId=req.session.userid;
+  console.log("hellooooo",userId);
+  quantity=req.body.cartId;
+  console.log("hely",quantity);
+    
  }
 };

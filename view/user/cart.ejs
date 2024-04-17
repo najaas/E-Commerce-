@@ -79,7 +79,7 @@
                             <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
                             <a href="#" class="position-relative me-4 my-auto">
                                 <i class="fa fa-shopping-bag fa-2x"></i>
-                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">3</span>
+                                <span class="position-absolute bg-secondary rounded-circle d-flex align-items-center justify-content-center text-dark px-1" style="top: -5px; left: 15px; height: 20px; min-width: 20px;">0</span>
                             </a>
                             <a href="#" class="my-auto">
                                 <i class="fas fa-user fa-2x"></i>
@@ -166,7 +166,7 @@
                                         <input type="text" data-qty class="form-control form-control-sm text-center border-0 quantity-<%=index %>" value="1">
 
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border"  onclick="increaseProductQty(event, '<%=index%>', '<%=cart.productId.prizePercenttage %>')" data-qty-plus data-index="<%= index%>"  >
+                                            <button class="btn btn-sm btn-plus rounded-circle bg-light border"  onclick="increaseProductQty(event, '<%=index%>', '<%=cart.productId.prizePercenttage %>', '<%= cart._id%>' )" data-qty-plus data-index="<%= index%>"  >
                                                 <i class="fa fa-plus"></i>
                                             </button>
                                         </div>
@@ -334,6 +334,7 @@
         })
     </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script>
 const sub=document.querySelector('.subtotal')
@@ -380,7 +381,7 @@ function fulldelete(id){
 
 const subtotal = document.querySelector(".subtotal")
 console.log(subtotal)
-function increaseProductQty (event, index, productPrice) {
+async function increaseProductQty(event, index, productPrice, cartId) {
     event.preventDefault()
 
     // set the product default price
@@ -392,11 +393,13 @@ function increaseProductQty (event, index, productPrice) {
 
     const qtyElem = document.querySelector(`.quantity-${index}`);
     
-    // set the product default quantity
     let qty = qtyElem.value;
+    console.log(qty);
+    const response = await axios.post("/updatecart", {
+            cartId,
+          });
     
     
-    // set the initial total price
     let totalPrice;
     qty++;
     totalPrice = qty * productPrice;
@@ -408,16 +411,16 @@ function increaseProductQty (event, index, productPrice) {
 
     const totalPriceElem1 = document.querySelectorAll(".totalamount");
 
-let totalPrice5 = 0; // Initialize totalPrice variable outside the loop
+let totalPrice5 = 0;
 
 totalPriceElem1.forEach((ele) => {
     const innerText = ele.innerText;
-    const price = parseFloat(innerText.replace('₹', ''));
+    const price = parseFloat(innerText.replace('₹',''));
      console.log(price)
-    totalPrice5 += price; // Accumulate the price to totalPrice
+    totalPrice5 += price;
 });
 
-console.log(totalPrice5); // Log the total price after accumulation
+console.log(totalPrice5); 
 
 
     
@@ -430,10 +433,8 @@ function decreaseProductQty (event, index, productPrice) {
     const totalPriceElem = document.querySelector(`[data-total-price-${index}]`);
     const qtyElem = document.querySelector(`.quantity-${index}`);
 
-// set the product default quantity
 let qty = qtyElem.value;
 
-// set the initial total price
 let totalPrice = 10;
   if (qty > 1) qty--;
   console.log(qty);
