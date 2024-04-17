@@ -251,29 +251,27 @@
 	   <!-- Fruits Shop End-->
 
 	   <div class="main">
-		<% product.forEach((card)=>{ %>
+		<% product.forEach((cart)=>{ %>
 		<div class="card">
-			<a href="/productdetails/<%=card.id%>">
+			<a href="/productdetails/<%=cart.id%>">
 			<div class="rounded position-relative fruite-item">
 				<div class="fruite-img">
-			 <div class="cardimage"><img src="/image/<%= card.image[0] %>" alt="" class="cardimageO"></div>
+			 <div class="cardimage"><img src="/image/<%= cart.image[0] %>" alt="" class="cardimageO"></div>
 			</div>
 			</div>
 		</a>
-			<h1 class="cardname"><%= card.name %></h1>
-			 <p class="cardprice">₹ <%= card.prizePercenttage%></p>
+			<h1 class="cardname"><%= cart.name %></h1>
+			 <p class="cardprice">₹ <%= cart.prizePercenttage %></p>
 			 <div class="wrapper">
-				<span class="price" data-total-price><%=card.DiscountPercentage%>%Off</span>
-				<!-- <span class="badge"><%=card.DiscountPercentage%>%</span> -->
+				<span class="price" data-total-price><%= cart.DiscountPercentage %>%Off</span>
 				<del class="del">
-				  <span style="display: flex;">₹<span class="offprice" data-total-price1><%= card.price %></span></span>
+				  <span style="display: flex;">₹<span class="offprice" data-total-price1><%= cart.price %></span></span>
 
 				 
 				</del>
 			  </div>
-			 <!-- <p class="carddiscription">Category : <%= card.category %></p> -->
 			 <div class="add" style="display: flex; gap:5px">
-			 <a ><button onclick="addToCart('<%= card.id%>')" style=" width: 250px; background-color: yellow; border-radius: 10px; border: none; color: black;">Add to cart</button></a>
+			 <a ><button onclick="addToCart('<%= cart.id%>')" style=" width: 250px; background-color: yellow; border-radius: 10px; border: none; color: black;">Add to cart</button></a>
 			<!-- &nbsp; -->
 			 <!-- <button style=" background-color: red; border-radius: 10px; border: none; color: white;">Buy Now</button> -->
 

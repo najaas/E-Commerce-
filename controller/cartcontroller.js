@@ -6,6 +6,7 @@ const { ObjectId } = require('mongodb');
 module.exports = {
   cartget: async (req, res) => { 
     const productId = req.params.id;
+    // console.log(productId);
     const userId =new ObjectId(req.session.userid);
     // console.log(userId);
     const existingCart = await Cart.findOne({ userid: userId });
@@ -35,7 +36,7 @@ module.exports = {
   cartpost:async(req,res)=>{
     const userId = new ObjectId( req.session.userid)
     const carts= await Cart.findOne({userid:userId}).populate({path:"products.productId",model:'products'})
-    console.log(carts);
+    // console.log(carts);
     if(carts) {
 
       // Initialize subtotal
@@ -53,7 +54,7 @@ module.exports = {
           }
       });
     }
-    console.log(Total);
+    // console.log(Total);
     // console.log(carts);
     res.render('user/cart',{carts,subtotal,Total}) 
  },
@@ -73,9 +74,49 @@ const cart = await Cart.findOneAndUpdate(
  },
  updatecartpost:async(req,res)=>{
   userId=req.session.userid;
-  console.log("hellooooo",userId);
-  quantity=req.body.cartId;
-  console.log("hely",quantity);
-    
+  // console.log("hellooooo",userId);
+  cartId=new ObjectId (req.body.cartId);
+  // console.log("hely",quantity);
+  quantity=(req.body.quantity)
+  // console.log(quantity);
+
+try {
+    const cartdata = await Cart.findOneAndUpdate(
+        { userid: userId, 'products._id': cartId },
+        { $inc: { 'products.$.quantity':quantity } },
+        // { new: true } // To return the updated document
+    );
+    // console.log(cartdata);
+    res.status(200).json({sucess:true})
+
+    const carts= await Cart.findOne({userid:userId}).populate({path:"products.productId",model:'products'})
+    console.log(carts);
+    if(carts){
+
+      // Initialize subtotal
+      var subtotal = 0;
+      var Total=0;
+
+      // Iterate over each product in the cart
+      carts.products.forEach(cart => {
+          // Check if the product and its price exist
+          if (cart.productId && cart.productId.price) {
+              // Add the price of the product to the subtotal
+              subtotal += cart.productId.prizePercenttage;
+              Total=subtotal+50;
+              
+          }
+      });
+    }
+    // console.log(Total);
+    // console.log(carts);
+    res.render('user/cart',{carts,subtotal,Total})
+
+} catch (error) {
+    console.error("Error occurred:", error);
+}
+
+
  }
 };
+

@@ -159,11 +159,11 @@
                                 <td>
                                     <div class="input-group quantity mt-4" style="width: 100px;">
                                         <div class="input-group-btn">
-                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" data-qty-minus data-index="<%= index%>" onclick="decreaseProductQty(event, '<%= index%>', '<%=cart.productId.prizePercenttage %>')"  >
+                                            <button class="btn btn-sm btn-minus rounded-circle bg-light border" data-qty-minus data-index="<%= index%>" onclick="decreaseProductQty(event, '<%= index%>', '<%=cart.productId.prizePercenttage %>','<%=cart._id%>')"  >
                                             <i class="fa fa-minus"></i>
                                             </button>
                                         </div>
-                                        <input type="text" data-qty class="form-control form-control-sm text-center border-0 quantity-<%=index %>" value="1">
+                                        <input type="text" data-qty class="form-control form-control-sm text-center border-0 quantity-<%=index %>" value="<%=cart.quantity%>">
 
                                         <div class="input-group-btn">
                                             <button class="btn btn-sm btn-plus rounded-circle bg-light border"  onclick="increaseProductQty(event, '<%=index%>', '<%=cart.productId.prizePercenttage %>', '<%= cart._id%>' )" data-qty-plus data-index="<%= index%>"  >
@@ -173,7 +173,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    <p class="mb-0 mt-4 totalamount"  data-total-price-<%=index%> >₹<%=cart.productId.prizePercenttage %></p>
+                                    <p class="mb-0 mt-4 totalamount"  data-total-price-<%=index%> >₹<%=cart.productId.prizePercenttage* cart.quantity %></p>
                                 </td>
                                 <td class="active">
                                     <button onclick="fulldelete('<%=cart.productId.id %>')" class="btn btn-md rounded-circle bg-light border mt-4" >
@@ -397,6 +397,7 @@ async function increaseProductQty(event, index, productPrice, cartId) {
     console.log(qty);
     const response = await axios.post("/updatecart", {
             cartId,
+            quantity:1
           });
     
     
@@ -428,14 +429,19 @@ console.log(totalPrice5);
    
 }
 
-function decreaseProductQty (event, index, productPrice) {
+async function decreaseProductQty (event, index, productPrice , cartId) {
     event.preventDefault()
     const totalPriceElem = document.querySelector(`[data-total-price-${index}]`);
     const qtyElem = document.querySelector(`.quantity-${index}`);
 
 let qty = qtyElem.value;
+console.log(qty);
+const response = await axios.post("/updatecart", {
+            cartId,
+            quantity:-1
+          });
 
-let totalPrice = 10;
+let totalPrice =0;
   if (qty > 1) qty--;
   console.log(qty);
   totalPrice = qty * productPrice;
