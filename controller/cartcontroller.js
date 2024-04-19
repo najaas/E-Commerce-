@@ -4,11 +4,9 @@ const { Product } = require("../model/datastore");
 const { ObjectId } = require('mongodb');
 
 module.exports = {
-  cartget: async (req, res) => { 
+  Addcartget: async (req, res) => { 
     const productId = req.params.id;
-    // console.log(productId);
     const userId =new ObjectId(req.session.userid);
-    // console.log(userId);
     const existingCart = await Cart.findOne({ userid: userId });
 
     if (existingCart) {
@@ -17,52 +15,40 @@ module.exports = {
         { $push: { products: { productId: productId } } },
         { new: true }
       );
-      // console.log(productId, updateCart);
       const cartdata= await Cart.findOne(userId).populate({path:"products.productId",model:'products'})
       res.status(200).json({success:true})
-      res.render('Entry/userlogin')
     } else {
       const newCart = new Cart({
         userid: userId,
         products: [{ productId: productId }],
       });
       await newCart.save();
-      // console.log(productId, newCart);
       res.status(200).json({success:true})
 
     }
   },
 
-  cartpost:async(req,res)=>{
+  cartget:async(req,res)=>{
     const userId = new ObjectId( req.session.userid)
     const carts= await Cart.findOne({userid:userId}).populate({path:"products.productId",model:'products'})
-    // console.log(carts);
     if(carts) {
 
-      // Initialize subtotal
       var subtotal = 0;
       var Total=0;
-
-      // Iterate over each product in the cart
       carts.products.forEach(cart => {
-          // Check if the product and its price exist
           if (cart.productId && cart.productId.price) {
-              // Add the price of the product to the subtotal
               subtotal += cart.productId.prizePercenttage;
-              Total=subtotal+50;
+            
               
           }
       });
     }
-    // console.log(Total);
-    // console.log(carts);
-    res.render('user/cart',{carts,subtotal,Total}) 
+    res.render('user/cart',{carts,subtotal}) 
  },
  cartdelete:async(req,res)=>{
   try{
   const id=req.session.userid;
   const proid=req.query.id;
-  // console.log('helloooooooo',id,proid);
 const cart = await Cart.findOneAndUpdate(
   {userid:id},
   {$pull:{products:{productId:proid}}}
@@ -74,49 +60,30 @@ const cart = await Cart.findOneAndUpdate(
  },
  updatecartpost:async(req,res)=>{
   userId=req.session.userid;
-  // console.log("hellooooo",userId);
   cartId=new ObjectId (req.body.cartId);
-  // console.log("hely",quantity);
   quantity=(req.body.quantity)
-  // console.log(quantity);
+  console.log(quantity);
 
 try {
+
     const cartdata = await Cart.findOneAndUpdate(
         { userid: userId, 'products._id': cartId },
         { $inc: { 'products.$.quantity':quantity } },
-        // { new: true } // To return the updated document
     );
-    // console.log(cartdata);
-    res.status(200).json({sucess:true})
 
-    const carts= await Cart.findOne({userid:userId}).populate({path:"products.productId",model:'products'})
-    console.log(carts);
-    if(carts){
+     const cart = await Cart.findOne({userid:userId}).populate({path:"products.productId",model:'products'});
 
-      // Initialize subtotal
-      var subtotal = 0;
-      var Total=0;
-
-      // Iterate over each product in the cart
-      carts.products.forEach(cart => {
-          // Check if the product and its price exist
-          if (cart.productId && cart.productId.price) {
-              // Add the price of the product to the subtotal
-              subtotal += cart.productId.prizePercenttage;
-              Total=subtotal+50;
-              
-          }
-      });
-    }
-    // console.log(Total);
-    // console.log(carts);
-    res.render('user/cart',{carts,subtotal,Total})
-
+      const subtotal = cart.products.reduce((acc, value) => {
+        return (acc += value.productId.prizePercenttage * value.quantity);
+      }, 0);
+      await Cart.updateOne(
+        { userId: req.session._id },
+        { $set: { total: subtotal + 50}}
+        );        
+      res.status(200).json({subtotal});
 } catch (error) {
     console.error("Error occurred:", error);
 }
-
-
  }
 };
 

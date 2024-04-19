@@ -12,8 +12,8 @@ router.post('/userhome',user.userpost)
 
 // cart
 
-router.get('/cart/:id',cart.cartget)
-router.get('/cart',cart.cartpost)
+router.get('/cart/:id',cart.Addcartget)
+router.get('/cart',cart.cartget)
 
 // cart update
 
