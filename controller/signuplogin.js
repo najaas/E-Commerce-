@@ -147,13 +147,11 @@ const otp1 = parseInt(otpp);
     },
     userloginpost:async(req,res)=>{
         const {email,password}=req.body;
-        // console.log(email+'  heeee  '+password);
         const login= await userdetails.findOne( {'email':email, 'password':password});
         req.session.user=login._id
-        // console.log(login._id);
         if(login){
             req.session.userid=login._id;
-            console.log(req.session.userid)
+            req.session.email=login.email;
             res.redirect('/userhome')
         }
         else{

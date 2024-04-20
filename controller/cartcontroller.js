@@ -6,8 +6,8 @@ const { ObjectId } = require('mongodb');
 module.exports = {
   Addcartget: async (req, res) => { 
     const productId = req.params.id;
-    const userId =new ObjectId(req.session.userid);
     const existingCart = await Cart.findOne({ userid: userId });
+    const userId =new ObjectId(req.session.userid);
 
     if (existingCart) {
       const updateCart = await Cart.findOneAndUpdate(
@@ -29,6 +29,7 @@ module.exports = {
   },
 
   cartget:async(req,res)=>{
+    if(req.session.email){
     const userId = new ObjectId( req.session.userid)
     const carts= await Cart.findOne({userid:userId}).populate({path:"products.productId",model:'products'})
     if(carts) {
@@ -38,14 +39,15 @@ module.exports = {
       carts.products.forEach(cart => {
           if (cart.productId && cart.productId.price) {
               subtotal += cart.productId.prizePercenttage;
-            
-              
           }
       });
     }
     res.render('user/cart',{carts,subtotal}) 
- },
- cartdelete:async(req,res)=>{
+  } 
+  else{
+      res.redirect('/userlogin')
+    }
+  },cartdelete:async(req,res)=>{
   try{
   const id=req.session.userid;
   const proid=req.query.id;

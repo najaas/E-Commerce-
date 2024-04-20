@@ -4,21 +4,21 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" href="./users/css/wishlist.css">
+  <link rel="stylesheet" href="/css/usercss/wishlist.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 </head>
 <body>
   
   <div class="container">
-    <div class="text"><h2>wishlist</h2></div>
+    <div class="text"><h2>wishlist  helloooo</h2></div>
     <div class="main">
     <div class="content">
     <% data.forEach((wishlist)=> { %>
       <%console.log(wishlist); %>
       <div class="box remove<%=wishlist._id%>">
         <div class="imageArea">
-        <a href="/productdetails/<%=wishlist._id %>"  >  <img src="/productImages/<%= wishlist.Image[0] %>" alt="" width="90%" height="90%">
+        <a href="/productdetails/<%=wishlist._id %>" >  <img src="/productImages/<%= wishlist.Image[0] %>" alt="" width="90%" height="90%">
         </a> </div>
         <div class="textarea">
           <div class="heading">

@@ -2,6 +2,7 @@
 const bannerdata=require('../model/banner')
 const {Product}=require('../model/datastore')
 const categorymodel=require('../model/category')
+const wishlist=require('../model/wishlist')
 
 module.exports={
     userget:async(req,res)=>{

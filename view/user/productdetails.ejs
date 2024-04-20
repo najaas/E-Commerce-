@@ -18,8 +18,23 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+<style>
+
+  .heart{
+
+    position:absolute;
+    font-size: 22px;
+    left:350px;
+    /* border: 2px solid black; */
+    color: none;
+  }
+</style>
+
 
 </head>
+
 
 <body>
 
@@ -97,7 +112,7 @@
         <div class="container">
 
           <div class="product-slides">
-
+            <i class="fa-solid fa-heart heart" onclick="addtoheart"  style="color:none;"></i>
             <div class="slider-banner" data-slider>
               <figure class="product-banner">
                 <img src="/image/<%= product.image[0]%>" width="600" height="600" loading="lazy" alt="Nike Sneaker"
@@ -203,14 +218,28 @@
     async function addToCart(id){
     try {
       const response = await axios.get('/cart/'+id)
-
-      
+      console.log(response,"helloo");
     } catch (error) {
       console.log(error);
     }
     }
+
+    async function addtoheart(id){
+      try {
+        const heart= await axios.get('/wishlist?id=${product.id}');
+        if(heart.status === 200){
+          console.log("add");
+        }else{
+          console.log("wrong");
+          window.location.href='/userlogin'
+        }
+      }catch(error){
+        console.log(error);
+      }
+    }
     
         </script>
+
 
 
 </body>

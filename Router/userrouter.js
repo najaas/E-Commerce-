@@ -33,7 +33,7 @@ router.post('/productdetails',user.productdetailspost)
 //Wishlist
 
 router.get('/wishlist',wishlist.wishlistget)
-router.post('/wishlist',wishlist.wishlistpost)
-
+router.post('/addwishlist/:id',wishlist.Addwishlistpost)
+.delete('/wishlist/delete/:id',wishlist.wishlistdelete)
 
 module.exports=router;

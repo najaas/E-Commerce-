@@ -9,6 +9,7 @@ const wishlistschema=new mongoose.Schema({
     products:[{
         type:mongoose.Schema.Types.ObjectId,
         ref: 'products',
+        required: true
     
       }]
 })
