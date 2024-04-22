@@ -61,8 +61,16 @@ if(search=="Toys"){
     productdetailsget:async(req,res)=>{
         const  productid = req.params.id;
         const product=await Product.findById(productid)
+        let wishlist1
+if(req.session.email){
+console.log(req.session)
+    const userID =req.session.userid
+    console.log(userID)
+        wishlist1 = await wishlist.findOne({userid:userID})
         // console.log(product);
-        res.render('user/productdetails',{product})
+
+}
+        res.render('user/productdetails',{product, wish: wishlist1? wishlist1:null})
     },
     productdetailspost:(req,res)=>{
         const details=req.query.id;

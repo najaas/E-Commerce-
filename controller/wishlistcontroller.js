@@ -1,5 +1,6 @@
 const Wishlist = require("../model/wishlist");
 const User = require("../model/userdetails");
+const {Product}=require('../model/datastore')
 const session = require("express-session");
 const { ObjectId } = require("mongodb");
 const { default: mongoose } = require("mongoose");
@@ -7,18 +8,15 @@ const { default: mongoose } = require("mongoose");
 module.exports = {
   wishlistget: async (req, res) => {
     try {
-      console.log("hey");
-      console.log(req.session.email);
       if (req.session.email) {
         const userId = req.session.userid;
-        console.log(userId);
         const wishlist = await Wishlist.findOne({ userid: userId }).populate({
           path: "products.productId",
           model: "products",
         });
-        console.log(wishlist, "hellooo");
+        console.log(wishlist,"wishlist");
         if (wishlist) {
-          res.render("user/wishlist", { data: wishlist.products });
+          res.render("user/wishlist", { data:wishlist?wishlist.products:"" });
         } else {
           // Handle case where wishlist is empty or not found
           res.render("user/wishlist", { data: [] });
@@ -48,11 +46,25 @@ module.exports = {
         }); 
         await newdata.save();
       } else {
-        wishlist.products.push(productId);
-        await wishlist.save();
-        res.status(200).json({ message: "added to wishlist" });
-      }} else{
-        res.status(202).json("message:false");
+console.log(wishlist.products,"koooo")
+console.log(productId,"vaaaa");
+
+const wishlistcheck = wishlist.products.some(product => product.equals(productId));   
+
+if(wishlistcheck){
+  console.log(wishlist)
+  await Wishlist.updateOne({ _id: wishlist._id }, { $pull: { products: productId } });
+    return res.status(200).json({ message: "Product removed from wishlist" });
+
+}else{
+  wishlist.products.push(productId);
+  await wishlist.save();
+  return res.status(200).json({ message: "added to wishlist" })
+}
+      }} else {
+        res.status(400).json("message:false");
+        res.redirect('/userlogin')
+
       }
    
   },

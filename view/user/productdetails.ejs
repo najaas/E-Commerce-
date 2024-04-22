@@ -28,7 +28,7 @@
     font-size: 22px;
     left:350px;
     /* border: 2px solid black; */
-    color: none;
+  
   }
 </style>
 
@@ -111,8 +111,28 @@
       <section class="section product" aria-label="product">
         <div class="container">
 
+
+
+
           <div class="product-slides"  onclick="addtoheart('<%=product.id%>')" >
-            <i class="fa-solid fa-heart heart"  style="color:none;"></i>
+
+            <% if(wish) { %>
+              <% let check = product.id; %>
+              <% console.log(check); %>
+            
+              <% let p = wish.products.find(product => product.equals(check)) !== undefined; %>
+              <% console.log(p); %>
+            
+              <% if(p) { %>
+                <i class="fa-solid fa-heart heart" style="color:red;"></i>
+              <% } else { %>
+                <i class="fa-solid fa-heart heart" style="color:none;"></i>
+              <% } %>
+            <% } else { %>
+              <i class="fa-solid fa-heart heart" style="color:none;"></i>
+            <% } %>
+            
+
             <div class="slider-banner" data-slider>
               <figure class="product-banner">
                 <img src="/image/<%= product.image[0]%>" width="600" height="600" loading="lazy" alt="Nike Sneaker"
@@ -228,20 +248,35 @@
     
         </script>
         <script>
+async function addtoheart(id) {
+    try {
+        const heart = await axios.post(`/addwishlist/${id}`);
+        if (heart.status === 200) {
+            console.log("add");
 
-async function addtoheart(id){
-      try {
-        const heart= await axios.post(`/addwishlist/${id}`);
-        if(heart.status === 200){
-          console.log("add");
-        }else{
-          console.log("wrong");
-          window.location.href='/userlogin'
+            const heartcolor = document.querySelector(".heart");
+
+            // Use computed style to get the actual color rendered
+            const currentColor = window.getComputedStyle(heartcolor).color;
+
+            // Toggle color between red and green
+            if (currentColor === 'rgb(255, 0, 0)') { // Assuming color is set as 'red'
+                heartcolor.style.color = "";
+                console.log("Color set to green");
+            } else {
+                heartcolor.style.color = "red";
+                console.log("Color set to red");
+            }
+
+        } else {
+            console.log("wrong");
+            window.location.href = '/userlogin';
         }
-      }catch(error){
+    } catch (error) {
         console.log(error);
-      }
     }
+}
+
 
         </script>
 
