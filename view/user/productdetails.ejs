@@ -61,7 +61,7 @@
         <ul class="navbar-list">
 
           <li>
-            <a href="#" class="navbar-link">Home</a>
+            <a href="/userhome" class="navbar-link">Home</a>
           </li>
 
           <li>
@@ -83,9 +83,9 @@
 
       <div class="header-action">
 
-        <button class="header-action-btn" aria-label="add to cart">
+       <a href="/cart"><button class="header-action-btn" aria-label="add to cart">
           <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
-        </button>
+        </button></a>
 
         <button class="profile-btn" aria-label="profile">
           <img src="./assets/images/profile.png" width="100" height="100" alt="profile" class="img">
@@ -111,8 +111,8 @@
       <section class="section product" aria-label="product">
         <div class="container">
 
-          <div class="product-slides">
-            <i class="fa-solid fa-heart heart" onclick="addtoheart"  style="color:none;"></i>
+          <div class="product-slides"  onclick="addtoheart('<%=product.id%>')" >
+            <i class="fa-solid fa-heart heart"  style="color:none;"></i>
             <div class="slider-banner" data-slider>
               <figure class="product-banner">
                 <img src="/image/<%= product.image[0]%>" width="600" height="600" loading="lazy" alt="Nike Sneaker"
@@ -224,9 +224,14 @@
     }
     }
 
-    async function addtoheart(id){
+   
+    
+        </script>
+        <script>
+
+async function addtoheart(id){
       try {
-        const heart= await axios.get('/wishlist?id=${product.id}');
+        const heart= await axios.post(`/addwishlist/${id}`);
         if(heart.status === 200){
           console.log("add");
         }else{
@@ -237,10 +242,8 @@
         console.log(error);
       }
     }
-    
+
         </script>
-
-
 
 </body>
 

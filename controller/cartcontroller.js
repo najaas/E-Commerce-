@@ -6,9 +6,9 @@ const { ObjectId } = require('mongodb');
 module.exports = {
   Addcartget: async (req, res) => { 
     const productId = req.params.id;
-    const existingCart = await Cart.findOne({ userid: userId });
     const userId =new ObjectId(req.session.userid);
-
+    const existingCart = await Cart.findOne({ userid: userId });
+if(req.session.email){
     if (existingCart) {
       const updateCart = await Cart.findOneAndUpdate(
         { userid: userId },
@@ -26,6 +26,9 @@ module.exports = {
       res.status(200).json({success:true})
 
     }
+  }else{
+    res.redirect('/userlogin')
+  }
   },
 
   cartget:async(req,res)=>{

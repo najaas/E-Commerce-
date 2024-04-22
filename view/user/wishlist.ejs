@@ -15,7 +15,7 @@
     <div class="main">
     <div class="content">
     <% data.forEach((wishlist)=> { %>
-      <%console.log(wishlist); %>
+      <%console.log(wishlist) %>
       <div class="box remove<%=wishlist._id%>">
         <div class="imageArea">
         <a href="/productdetails/<%=wishlist._id %>" >  <img src="/productImages/<%= wishlist.Image[0] %>" alt="" width="90%" height="90%">
