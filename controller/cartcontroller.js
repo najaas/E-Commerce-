@@ -50,7 +50,8 @@ if(req.session.email){
   else{
       res.redirect('/userlogin')
     }
-  },cartdelete:async(req,res)=>{
+  },
+  cartdelete:async(req,res)=>{
   try{
   const id=req.session.userid;
   const proid=req.query.id;

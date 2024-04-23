@@ -6,12 +6,13 @@
   <title>Document</title>
   <link rel="stylesheet" href="/css/usercss/wishlist.css">
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 </head>
 <body>
   
   <div class="container">
-    <div class="text"><h2>wishlist  helloooo</h2></div>
+    <div class="text"><h2>wishlist</h2></div>
     <div class="main">
     <div class="content">
       <% data.forEach((wishlist) => { %>
@@ -30,7 +31,7 @@
               <h1><%= wishlist.name %>hy</h1>
             </div>
             <div class="buttons">
-              <button type="button">Add to cart</button>
+              <!-- <button type="button">Add to cart</button> -->
               <button class="btnremove" type="button" onclick="toDelete(event, '<%=wishlist._id%>')">Remove</button>
             </div>
           </div>
@@ -44,8 +45,18 @@
 <script>
   async function toDelete(e,id){
     e.preventDefault();
-    const response=await axios.delete('/wishlist/delete/'+id)
-    if (response.data.message==true) {
+    const response=await axios.delete(`/wishlist/delete/?id=${id}`)
+
+    console.log(response,'heeeee');
+    if (response.data==true) {
+
+      Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title: "Your work has been Deleted",
+  showConfirmButton: false,
+  timer: 1500
+});
       document.querySelector(`.remove${id}`).remove()
       }else{
         console.log('remove failed');

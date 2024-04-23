@@ -10,11 +10,9 @@ module.exports = {
     try {
       if (req.session.email) {
         const userId = req.session.userid;
-        const wishlist = await Wishlist.findOne({ userid: userId }).populate({
-          path: "products.productId",
-          model: "products",
-        });
-        console.log(wishlist,"wishlist");
+        const wishlist = await Wishlist.findOne({ userid: userId }).populate(
+          "products"
+       );
         if (wishlist) {
           res.render("user/wishlist", { data:wishlist?wishlist.products:"" });
         } else {
@@ -70,12 +68,27 @@ if(wishlistcheck){
   },
   wishlistdelete: async (req, res) => {
     try {
-      // Implement wishlist item deletion functionality
-      // Retrieve wishlist item ID from request parameters and delete from wishlist
-      res.send("Delete from wishlist functionality will be implemented here");
+      console.log('booy');
+      const productId = req.query.id
+      console.log(productId);
+      const userId =req.session.userid
+
+      const wishlist = await Wishlist.findOne({ userid: userId });
+      console.log("hai rameeskutta", wishlist);
+
+      const productObjectId = new mongoose.Types.ObjectId(productId);
+
+      // Use updateOne with $pull to remove the product from the wishlist
+      const updateResult = await Wishlist.updateOne(
+        { _id: wishlist._id },
+        { $pull: { products: productObjectId } }
+      );
+  
+
+
+      res.send(true);
     } catch (error) {
       console.error(error);
-      // Handle error
       res.status(500).send("Internal Server Error");
     }
   },

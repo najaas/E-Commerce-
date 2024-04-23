@@ -26,7 +26,7 @@
 
     position:absolute;
     font-size: 22px;
-    left:350px;
+    left:300px;
     /* border: 2px solid black; */
   
   }
@@ -83,6 +83,10 @@
 
       <div class="header-action">
 
+        <a href="/wishlist">
+          <img src="/image/heart-circle-svgrepo-com (3).svg" style="width: 30px;" alt="">
+        </a>
+
        <a href="/cart"><button class="header-action-btn" aria-label="add to cart">
           <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
         </button></a>
@@ -114,7 +118,8 @@
 
 
 
-          <div class="product-slides"  onclick="addtoheart('<%=product.id%>')" >
+          <div class="product-slides">
+            <div class="main"  onclick="addtoheart('<%=product.id%>')" >
 
             <% if(wish) { %>
               <% let check = product.id; %>
@@ -132,7 +137,7 @@
               <i class="fa-solid fa-heart heart" style="color:none;"></i>
             <% } %>
             
-
+</div>
             <div class="slider-banner" data-slider>
               <figure class="product-banner">
                 <img src="/image/<%= product.image[0]%>" width="600" height="600" loading="lazy" alt="Nike Sneaker"
@@ -187,7 +192,7 @@
 
             <div class="btn-group">
 
-              <div class="counter-wrapper">
+              <!-- <div class="counter-wrapper">
                 <button class="counter-btn" data-qty-minus>
                   <ion-icon name="remove-outline"></ion-icon>
                 </button>
@@ -198,8 +203,8 @@
                   <ion-icon name="add-outline"></ion-icon>
                 </button>
 
-              </div>
-              <a>
+              </div> -->
+              <a class="add">
               <button class="cart-btn"  onclick="addToCart('<%= product.id%>')">
                 <ion-icon name="bag-handle-outline" aria-hidden="true"></ion-icon>
 

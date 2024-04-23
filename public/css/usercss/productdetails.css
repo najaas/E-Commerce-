@@ -95,9 +95,14 @@
   span,
   button,
   ion-icon { display: block; }
+
+  .add{
+    width: 300px;
+  }
   
   a {
     color: inherit;
+    /* width: 300px; */
     text-decoration: none;
   }
   
