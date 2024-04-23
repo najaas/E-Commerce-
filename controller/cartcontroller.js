@@ -1,95 +1,160 @@
 const session = require("express-session");
 const Cart = require("../model/cart");
 const { Product } = require("../model/datastore");
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require("mongodb");
+const { default: mongoose } = require("mongoose");
 
 module.exports = {
-  Addcartget: async (req, res) => { 
-    const productId = req.params.id;
-    const userId =new ObjectId(req.session.userid);
-    const existingCart = await Cart.findOne({ userid: userId });
-if(req.session.email){
-    if (existingCart) {
-      const updateCart = await Cart.findOneAndUpdate(
-        { userid: userId },
-        { $push: { products: { productId: productId } } },
-        { new: true }
-      );
-      const cartdata= await Cart.findOne(userId).populate({path:"products.productId",model:'products'})
-      res.status(200).json({success:true})
-    } else {
-      const newCart = new Cart({
+  Addcartget:  async (req, res) => {
+    if (!req.session.email) {
+      return res.redirect("/userlogin");
+    }
+  
+    const userId = req.session.userid;
+    const productId = new mongoose.Types.ObjectId(req.params.id);
+    const product = await Product.findById(productId);
+    if (!product) {
+      return res.status(404).send("Product not found");
+    }
+  
+    console.log("Product:", product);
+  
+    // Find or create the cart
+    let cart = await Cart.findOne({ userid: userId });
+    if (!cart) {
+      console.log("No cart found, creating one...");
+      cart = new Cart({
         userid: userId,
-        products: [{ productId: productId }],
+        products: [{ productId: productId, quantity: 1 }],
+        total: product.prizePercenttage // Initial total calculation
       });
-      await newCart.save();
-      res.status(200).json({success:true})
-
+    } else {
+      // Check if product already exists in the cart
+      const productIndex = cart.products.findIndex(item => item.productId.equals(productId));
+      if (productIndex > -1) {
+        // Product exists, increase quantity
+        cart.products[productIndex].quantity += 1;
+      } else {
+        // New product, add to cart
+        cart.products.push({ productId: productId, quantity: 1 });
+      }
+      // Update the total
+      cart.total += product.prizePercenttage ;  // Assuming additional 50 is shipping or some other cost
     }
-  }else{
-    res.redirect('/userlogin')
-  }
+  
+    await cart.save();
+    console.log("Updated Cart:", cart);
+  
+    res.send("Product added to cart successfully");
   },
 
-  cartget:async(req,res)=>{
-    if(req.session.email){
-    const userId = new ObjectId( req.session.userid)
-    const carts= await Cart.findOne({userid:userId}).populate({path:"products.productId",model:'products'})
-    if(carts) {
+  cartget: async (req, res) => {
+    if (req.session.email) {
+      const userId = req.session.userid;
 
-      var subtotal = 0;
-      var Total=0;
-      carts.products.forEach(cart => {
-          if (cart.productId && cart.productId.price) {
-              subtotal += cart.productId.prizePercenttage;
-          }
+      const carts = await Cart.findOne({ userid: userId }).populate({
+        path: "products.productId",
+        model: "products",
       });
-    }
-    res.render('user/cart',{carts,subtotal}) 
-  } 
-  else{
-      res.redirect('/userlogin')
+     
+        // var subtotal = 0;
+        // // var Total=0;
+        // carts.products.forEach(cart => {
+        //     if (cart.productId && cart.productId.price) {
+        //         subtotal += cart.productId.prizePercenttage;
+        //     }
+        // });
+
+        return res.render("user/cart", {
+          carts: carts ? carts : null,
+          
+        });
+     
+
+
+
+
+      
+    } else {
+      res.redirect("/userlogin");
     }
   },
-  cartdelete:async(req,res)=>{
-  try{
-  const id=req.session.userid;
-  const proid=req.query.id;
-const cart = await Cart.findOneAndUpdate(
-  {userid:id},
-  {$pull:{products:{productId:proid}}}
-)
-}catch(error){
-    console.log("error in removing category",error);
-    res.status(500).json({success:false,message:"something wrong"})
-  }
- },
- updatecartpost:async(req,res)=>{
-  userId=req.session.userid;
-  cartId=new ObjectId (req.body.cartId);
-  quantity=(req.body.quantity)
-  console.log(quantity);
 
-try {
+  cartdelete: async (req, res) => {
+    try {
+        const userId = req.session.userid;
+        const productId = req.query.id;
 
-    const cartdata = await Cart.findOneAndUpdate(
-        { userid: userId, 'products._id': cartId },
-        { $inc: { 'products.$.quantity':quantity } },
-    );
+        // Check if the product exists
+        const productDetails = await Product.findById(productId);
+        if (!productDetails) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
 
-     const cart = await Cart.findOne({userid:userId}).populate({path:"products.productId",model:'products'});
+        // Remove the product and fetch the updated cart
+        let updatedCart = await Cart.findOneAndUpdate(
+            { userid: userId },
+            { $pull: { products: { productId: productId } } },
+            { new: true }
+        );
+console.log(updatedCart)
+        if (!updatedCart) {
+            return res.status(404).json({ success: false, message: "Cart not found, or product not in cart" });
+        }
+
+        // Recalculate the total based on remaining products
+        let newTotal = 0;
+        if (updatedCart.products.length > 0) {
+            for (let item of updatedCart.products) {
+                let itemDetails = await Product.findById(item.productId);
+                if (itemDetails) {
+                    newTotal += itemDetails.prizePercenttage * item.quantity;
+                }
+            }
+        }
+
+        // Update the cart with the new total
+        updatedCart = await Cart.findOneAndUpdate(
+            { userid: userId },
+            { $set: { total: newTotal } },
+            { new: true }
+        );
+
+       
+        res.json({ success: true, cart: updatedCart });
+    } catch (error) {
+        console.error("Error in removing product from cart:", error);
+        res.status(500).json({ success: false, message: "Something went wrong" });
+    }
+}
+,
+
+  updatecartpost: async (req, res) => {
+    let userId = req.session.userid;
+    let cartId = req.body.cartId;
+    let quantity = req.body.quantity;
+    console.log(quantity);
+
+    try {
+      const cartdata = await Cart.findOneAndUpdate(
+        { userid: userId, "products._id": cartId },
+        { $inc: { "products.$.quantity": quantity } }
+      );
+      const cart = await Cart.findOne({ userid: userId }).populate({
+        path: "products.productId",
+        model: "products",
+      });
 
       const subtotal = cart.products.reduce((acc, value) => {
         return (acc += value.productId.prizePercenttage * value.quantity);
       }, 0);
       await Cart.updateOne(
         { userId: req.session._id },
-        { $set: { total: subtotal + 50}}
-        );        
-      res.status(200).json({subtotal});
-} catch (error) {
-    console.error("Error occurred:", error);
-}
- }
+        { $set: { total: subtotal + 50 } }
+      );
+      res.status(200).json({ subtotal });
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
+  },
 };
-
