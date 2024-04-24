@@ -20,7 +20,7 @@ module.exports = {
           res.render("user/wishlist", { data: [] });
         }
       } else {
-        res.redirect("/userlogin");
+        res.redirect("/");
       }
     } catch (error) {
       console.error(error);
@@ -61,7 +61,7 @@ if(wishlistcheck){
 }
       }} else {
         res.status(400).json("message:false");
-        res.redirect('/userlogin')
+        res.redirect('"/"')
 
       }
    

@@ -65,8 +65,8 @@ const user=require('../controller/signuplogin')
 
 // user login
 
-router.get('/userlogin',user.userloginget)
-router.post('/userlogin',user.userloginpost)
+router.get('/',user.userloginget)
+router.post('/',user.userloginpost)
 
 // user signup
 

@@ -6,48 +6,39 @@ const { default: mongoose } = require("mongoose");
 
 module.exports = {
   Addcartget:  async (req, res) => {
-    if (!req.session.email) {
-      return res.redirect("/userlogin");
-    }
-  
-    const userId = req.session.userid;
-    const productId = new mongoose.Types.ObjectId(req.params.id);
-    const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(404).send("Product not found");
-    }
-  
-    console.log("Product:", product);
-  
-    // Find or create the cart
-    let cart = await Cart.findOne({ userid: userId });
-    if (!cart) {
-      console.log("No cart found, creating one...");
-      cart = new Cart({
-        userid: userId,
-        products: [{ productId: productId, quantity: 1 }],
-        total: product.prizePercenttage // Initial total calculation
-      });
-    } else {
-      // Check if product already exists in the cart
-      const productIndex = cart.products.findIndex(item => item.productId.equals(productId));
-      if (productIndex > -1) {
-        // Product exists, increase quantity
-        cart.products[productIndex].quantity += 1;
-      } else {
-        // New product, add to cart
-        cart.products.push({ productId: productId, quantity: 1 });
+    if (req.session.email){
+      const userId = req.session.userid;
+      const productId = new mongoose.Types.ObjectId(req.params.id);
+      const product = await Product.findById(productId);
+      if (!product) {
+        return res.status(404).send("Product not found");
       }
-      // Update the total
-      cart.total += product.prizePercenttage ;  // Assuming additional 50 is shipping or some other cost
+      let cart = await Cart.findOne({ userid: userId });
+      if (!cart) {
+        console.log("No cart found, creating one...");
+        cart = new Cart({
+          userid: userId,
+          products: [{ productId: productId, quantity: 1 }],
+          total: product.prizePercenttage
+        });
+      } else {
+        const productIndex = cart.products.findIndex(item => item.productId.equals(productId));
+        if (productIndex > -1) {
+          cart.products[productIndex].quantity += 1;
+        } else {
+          cart.products.push({ productId: productId, quantity: 1 });
+        }
+        cart.total += product.prizePercenttage ;
+      }
+    
+      await cart.save();
+      console.log("Updated Cart:", cart);
+    
+      res.send("Product added to cart successfully");
+    }else{
+    res.redirect("/");
     }
-  
-    await cart.save();
-    console.log("Updated Cart:", cart);
-  
-    res.send("Product added to cart successfully");
   },
-
   cartget: async (req, res) => {
     if (req.session.email) {
       const userId = req.session.userid;
@@ -67,16 +58,10 @@ module.exports = {
 
         return res.render("user/cart", {
           carts: carts ? carts : null,
-          
         });
-     
-
-
-
-
       
     } else {
-      res.redirect("/userlogin");
+      res.redirect("/");
     }
   },
 

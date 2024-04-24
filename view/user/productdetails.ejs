@@ -119,7 +119,7 @@
 
 
           <div class="product-slides">
-            <div class="main"  onclick="addtoheart('<%=product.id%>')" >
+            <div class="main" style="position: absolute; top: 20px; left: 60px; z-index: 5;"  onclick="addtoheart('<%=product.id%>')" >
 
             <% if(wish) { %>
               <% let check = product.id; %>
@@ -182,7 +182,7 @@
 
             <div class="wrapper">
 
-              <span class="price" data-total-price>₹<%= product.prizePercenttage %></span>
+              <span class="price" data-total-price>₹<%= product.prizePercenttage.toFixed(2) %></span>
 
               <span class="badge"><%= product.DiscountPercentage %>%</span>
 
@@ -224,6 +224,7 @@
 
 
 
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
   <!-- 
@@ -244,6 +245,12 @@
     try {
       const response = await axios.get('/cart/'+id)
       console.log(response,"helloo");
+      Swal.fire({
+                title: 'Success!',
+                text: 'Item has been added to your cart!',
+                icon: 'success',
+                confirmButtonText: 'OK'
+            });
     } catch (error) {
       console.log(error);
     }
@@ -275,7 +282,7 @@ async function addtoheart(id) {
 
         } else {
             console.log("wrong");
-            window.location.href = '/userlogin';
+            window.location.href = '"/"';
         }
     } catch (error) {
         console.log(error);
