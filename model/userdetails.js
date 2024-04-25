@@ -16,6 +16,7 @@ const  userSchema = new mongoose.Schema({
     confirmpassword:{
         type: String
     }
+   
 })
 
 module.exports = mongoose.model('userlist', userSchema);

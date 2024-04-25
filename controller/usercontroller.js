@@ -4,7 +4,9 @@ const {Product}=require('../model/datastore')
 const categorymodel=require('../model/category')
 const wishlist=require('../model/wishlist')
 const cartmodel=require('../model/cart')
-const user=require('../model/userdetails')
+const Userdetails=require('../model/userdetails')
+const Profile=require('../model/userprofile')
+// const {user}=require('../model/datastore')
 
 module.exports={
     userget:async(req,res)=>{
@@ -69,22 +71,28 @@ console.log(req.session)
         console.log(details);
         // res.redirect('/user/productdetails')
     },
-    profileget:async(req,res)=>{
+    profileget:async(req,res)=>{ 
+        const userid=req.session.userid
         if(req.session.email){
-            const User=await user.findOne({email:req.session.email})
-           res.render('user/profile',{User})
+            const User=await Userdetails.findOne({email:req.session.email})
+            const modifydetails=await Profile.findOne({Useremail:req.session.email})
+            console.log(modifydetails);
+           res.render('user/profile',{User,modifydetails})
             }else{
                 res.redirect('/')
             }
     },
     profilepost:async(req,res)=>{
+        const profile=await 
         res.redirect('/profile')
     },
     checkoutget: async (req, res) => {
         try {
             if(req.session.email){
                 const cart = await cartmodel.findOne({ userid: req.session.userid }).populate('products.productId');
-                res.render('user/checkout', { cart});
+                const userprofile= await Profile.findOne({Useremail:req.session.email})
+                console.log(userprofile);
+                res.render('user/checkout', { cart,userprofile});
             }else{
                 res.redirect('/')
             }
@@ -110,6 +118,57 @@ console.log(req.session)
     },
     checkoutpost:(req,res)=>{
         res.redirect('/checkout')
+    },
+    userdetailsget:async(req,res)=>{
+        if(req.session.email){
+            const details= await Userdetails.findOne({email:req.session.email})
+            res.render('user/userdetails',{details})
+
+
+        }else{
+            res.redirect("/")
+        }
+    },
+    userdetailspost:async(req,res)=>{
+        userId=req.session.userid;
+        console.log(userId,'post');
+        const {username,userlastname,address,city,country,postcode,mobile,useremail}=req.body;
+
+        const userdetails= await Userdetails.findOneAndUpdate(  { email: req.session.email },  
+        { $set: { name: username } } )
+     
+
+        const finduser=await Profile.findOne({userid:userId})
+        if(finduser){
+            const Userprofile={
+                Username:username,
+                Userlastname:userlastname,
+                Address:address,
+                City:city,
+                Country:country,
+                Postcode:postcode,
+                Mobile:mobile,
+                Useremail:useremail,
+                userid:userId
+            }
+            const userprofile= await Profile.findByIdAndUpdate(finduser._id,Userprofile)
+        }else{
+
+        const Userprofile={
+            Username:username,
+            Userlastname:userlastname,
+            Address:address,
+            City:city,
+            Country:country,
+            Postcode:postcode,
+            Mobile:mobile,
+            Useremail:useremail,
+            userid:userId
+        }
+        const userprofile= await Profile.create(Userprofile)
+        userprofile.save()
+    }
+    res.redirect('/profile')
     }
 
 }

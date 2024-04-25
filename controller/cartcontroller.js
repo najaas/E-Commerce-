@@ -70,13 +70,11 @@ module.exports = {
         const userId = req.session.userid;
         const productId = req.query.id;
 
-        // Check if the product exists
         const productDetails = await Product.findById(productId);
         if (!productDetails) {
             return res.status(404).json({ success: false, message: "Product not found" });
         }
 
-        // Remove the product and fetch the updated cart
         let updatedCart = await Cart.findOneAndUpdate(
             { userid: userId },
             { $pull: { products: { productId: productId } } },
@@ -87,7 +85,6 @@ console.log(updatedCart)
             return res.status(404).json({ success: false, message: "Cart not found, or product not in cart" });
         }
 
-        // Recalculate the total based on remaining products
         let newTotal = 0;
         if (updatedCart.products.length > 0) {
             for (let item of updatedCart.products) {
@@ -98,7 +95,6 @@ console.log(updatedCart)
             }
         }
 
-        // Update the cart with the new total
         updatedCart = await Cart.findOneAndUpdate(
             { userid: userId },
             { $set: { total: newTotal } },
@@ -111,9 +107,7 @@ console.log(updatedCart)
         console.error("Error in removing product from cart:", error);
         res.status(500).json({ success: false, message: "Something went wrong" });
     }
-}
-,
-
+},
   updatecartpost: async (req, res) => {
     let userId = req.session.userid;
     let cartId = req.body.cartId;

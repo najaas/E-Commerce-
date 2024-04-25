@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile Form</title>
+    <link rel="stylesheet" href="/css/usercss/userdetailes.css">
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-lg-6 col-xl-7">
+                <form id="user-profile-form" action="/userdetails" method="post">
+                    <div class="row">
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">First Name<sup>*</sup></label>
+                                <input type="text" class="form-control" value="<%= details.name %>" name="username" required>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="form-item w-100">
+                                <label class="form-label my-3">Last Name<sup>*</sup></label>
+                                <input type="text" class="form-control" name="userlastname" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Address <sup>*</sup></label>
+                        <input type="text" class="form-control" name="address" placeholder="House Number Street Name" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Town/City<sup>*</sup></label>
+                        <input type="text" class="form-control" name="city" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Country<sup>*</sup></label>
+                        <input type="text" class="form-control" name="country" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
+                        <input type="text" class="form-control"  name="postcode" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Mobile<sup>*</sup></label>
+                        <input type="tel" class="form-control" name="mobile" value="<%=details.number%>" required>
+                    </div>
+                    <div class="form-item">
+                        <label class="form-label my-3">Email Address<sup>*</sup></label>
+                        <input type="email" class="form-control" value="<%=details.email%>" name="useremail" required>
+                    </div>
+                    <hr>
+                  
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js">
+
+const form = document.getElementById('user-profile-form');
+
+form.addEventListener('submit', function(event) {
+  event.preventDefault(); // Prevent default form submission
+
+  // Here, you can handle form submission logic
+  // For example, you could validate the form data or send it to the server
+  console.log('Form')})
+
+    </script>
+</body>
+</html>

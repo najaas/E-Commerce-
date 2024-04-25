@@ -46,6 +46,12 @@ router.post('/profile',user.profilepost)
 router.get('/checkout',user.checkoutget)
 router.post('/checkout',user.checkoutpost)
 
+// Search
 router.post('/search',user.search)
+
+// User profile Details
+router.get('/userdetails',user.userdetailsget)
+router.post('/userdetails',user.userdetailspost)
+
 
 module.exports=router;

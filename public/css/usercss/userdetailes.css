@@ -1,0 +1,48 @@
+/* Basic styles */
+
+body {
+    padding: 20px;
+    font-family: sans-serif;
+  }
+  
+  .container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+  
+  .form-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+  }
+  
+  .form-item {
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Ensures padding doesn't affect width */
+  }
+  
+  .btn-primary {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  /* Using the color #81c408 */
+  
+  .btn-primary {
+    background-color: #81c408;
+    color: white;
+  }
+  
+  .form-label.highlight {
+    color: #81c408;
+  }
+  

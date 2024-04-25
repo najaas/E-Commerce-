@@ -167,7 +167,7 @@ const otp1 = parseInt(otpp);
         const same=password===confirmpassword;
         const names=await userdetails.findOne({name});
         const emails=await userdetails.findOne({email});
-        const  numbers=await userdetails.findOne({number})
+        const  numbers=await userdetails.findOne({number});
         if(names){
             res.send('Name Already Exists') 
         }
