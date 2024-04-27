@@ -118,8 +118,7 @@ console.log(req.session)
             Useremail:useremail,
             userid:userId
            }
-           const userprofile= await Profile.findByIdAndUpdate(finduser._id,orderadaress)
-
+           const userprofile= await Profile.findByIdAndUpdate(finduser._id,orderadaress);
            return res.redirect('/homedelivery')
         }
         res.redirect('/')
@@ -144,7 +143,6 @@ console.log(req.session)
             const details= await Userdetails.findOne({email:req.session.email})
             res.render('user/userdetails',{details})
 
-
         }else{
             res.redirect("/")
         }
@@ -152,6 +150,7 @@ console.log(req.session)
     userdetailspost:async(req,res)=>{
         userId=req.session.userid;
         const {username,userlastname,address,city,country,postcode,mobile,useremail}=req.body;
+        console.log(username);
         const userdetails= await Userdetails.findOneAndUpdate(  { email: req.session.email },  
         { $set: { name: username } } )
         const finduser=await Profile.findOne({userid:userId})
@@ -169,7 +168,6 @@ console.log(req.session)
             }
             const userprofile= await Profile.findByIdAndUpdate(finduser._id,Userprofile)
         }else{
-
         const Userprofile={
             Username:username,
             Userlastname:userlastname,
@@ -193,5 +191,4 @@ console.log(req.session)
             res.redirect('/')
         }
     }
-
 }
