@@ -53,5 +53,7 @@ router.post('/search',user.search)
 router.get('/userdetails',user.userdetailsget)
 router.post('/userdetails',user.userdetailspost)
 
+//Orderplaced Homedelivery
+router.get('/homedelivery',user.homedeliveryget)
 
 module.exports=router;

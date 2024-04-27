@@ -91,7 +91,6 @@ console.log(req.session)
             if(req.session.email){
                 const cart = await cartmodel.findOne({ userid: req.session.userid }).populate('products.productId');
                 const userprofile= await Profile.findOne({Useremail:req.session.email})
-                console.log(userprofile);
                 res.render('user/checkout', { cart,userprofile});
             }else{
                 res.redirect('/')
@@ -100,6 +99,30 @@ console.log(req.session)
             console.error("Error in checkout process: ", error);
             res.status(500).send("Error processing checkout.");
         }
+    },
+    checkoutpost:async(req,res)=>{
+        console.log("heyh");
+        if(req.session.email){
+            userId=req.session.userid;
+            const {username,userlastname,address,city,country,postcode,mobile,useremail}=req.body;
+            console.log(req.body);
+            const finduser=await Profile.findOne({userid:userId})
+           const orderadaress={
+            Username:username,
+            Userlastname:userlastname,
+            Address:address,
+            City:city,
+            Country:country,
+            Postcode:postcode,
+            Mobile:mobile,
+            Useremail:useremail,
+            userid:userId
+           }
+           const userprofile= await Profile.findByIdAndUpdate(finduser._id,orderadaress)
+
+           return res.redirect('/homedelivery')
+        }
+        res.redirect('/')
     },
     search : async (req, res) => {
         try {
@@ -116,9 +139,6 @@ console.log(req.session)
           return res.status(500).json({ message: "Internal Server Error" });
         }
     },
-    checkoutpost:(req,res)=>{
-        res.redirect('/checkout')
-    },
     userdetailsget:async(req,res)=>{
         if(req.session.email){
             const details= await Userdetails.findOne({email:req.session.email})
@@ -131,13 +151,9 @@ console.log(req.session)
     },
     userdetailspost:async(req,res)=>{
         userId=req.session.userid;
-        console.log(userId,'post');
         const {username,userlastname,address,city,country,postcode,mobile,useremail}=req.body;
-
         const userdetails= await Userdetails.findOneAndUpdate(  { email: req.session.email },  
         { $set: { name: username } } )
-     
-
         const finduser=await Profile.findOne({userid:userId})
         if(finduser){
             const Userprofile={
@@ -169,6 +185,13 @@ console.log(req.session)
         userprofile.save()
     }
     res.redirect('/profile')
+    },
+    homedeliveryget:(req,res)=>{
+        if(req.session.email){
+            res.render('user/homedelivery')
+        }else{
+            res.redirect('/')
+        }
     }
 
 }
