@@ -77,13 +77,13 @@ console.log(req.session)
             const User=await Userdetails.findOne({email:req.session.email})
             const modifydetails=await Profile.findOne({Useremail:req.session.email})
             console.log(modifydetails);
-           res.render('user/profile',{User,modifydetails})
+           res.render('user/profile',{User,modifydetails : modifydetails || ''})
             }else{
                 res.redirect('/')
             }
     },
     profilepost:async(req,res)=>{
-        const profile=await 
+        // const profile=await 
         res.redirect('/profile')
     },
     checkoutget: async (req, res) => {
