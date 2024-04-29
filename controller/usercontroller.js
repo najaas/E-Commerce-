@@ -6,6 +6,7 @@ const wishlist=require('../model/wishlist')
 const cartmodel=require('../model/cart')
 const Userdetails=require('../model/userdetails')
 const Profile=require('../model/userprofile')
+const Order = require("../model/order")
 // const {user}=require('../model/datastore')
 
 module.exports={
@@ -76,14 +77,12 @@ console.log(req.session)
         if(req.session.email){
             const User=await Userdetails.findOne({email:req.session.email})
             const modifydetails=await Profile.findOne({Useremail:req.session.email})
-            console.log(modifydetails);
            res.render('user/profile',{User,modifydetails : modifydetails || ''})
             }else{
                 res.redirect('/')
             }
     },
     profilepost:async(req,res)=>{
-        // const profile=await 
         res.redirect('/profile')
     },
     checkoutget: async (req, res) => {
@@ -96,18 +95,15 @@ console.log(req.session)
                 res.redirect('/')
             }
         } catch (error) {
-            console.error("Error in checkout process: ", error);
             res.status(500).send("Error processing checkout.");
         }
     },
     checkoutpost:async(req,res)=>{
-        console.log("heyh");
         if(req.session.email){
             userId=req.session.userid;
-            const {username,userlastname,address,city,country,postcode,mobile,useremail}=req.body;
-            console.log(req.body);
+            const {username,userlastname,address,city,country,postcode,mobile,useremail,Delivery}=req.body;
             const finduser=await Profile.findOne({userid:userId})
-           const orderadaress={
+           const orderaddress={
             Username:username,
             Userlastname:userlastname,
             Address:address,
@@ -118,23 +114,41 @@ console.log(req.session)
             Useremail:useremail,
             userid:userId
            }
-           const userprofile= await Profile.findByIdAndUpdate(finduser._id,orderadaress);
-           return res.redirect('/homedelivery')
+         req.session.userorder =orderaddress
+        if (Delivery!="paypal"){
+const userid  = finduser.userid
+const cart = await cartmodel.findOne({ userid: req.session.userid }).populate('products.productId');
+let totalarray =[]
+cart.products.forEach((ele)=>{
+totalarray.push({productID:ele.productId._id,quantity:ele.quantity})
+})
+
+const order = new Order({
+    customerId: userid,
+    items: totalarray,
+    totalAmount: cart.total,
+    status: 'pending'  // Default status
+});
+
+await order.save()
+cart.products=[]
+cart.total=0
+cart.save()
+return res.redirect("/homedelivery")
         }
-        res.redirect('/')
+        }else{
+            res.redirect('/')
+        }
     },
     search : async (req, res) => {
         try {
           const nameQuery = req.body.search?.toString().trim();
-          console.log('Search Query:', nameQuery)
           const allProducts = await Product.find({
             name: { $regex: new RegExp(nameQuery, "i") }
           });
       
-          console.log('Found Products:', allProducts);
           return res.render('user/searchPage', { product: allProducts });
         } catch (error) {
-          console.error('Search Error:', error);
           return res.status(500).json({ message: "Internal Server Error" });
         }
     },
@@ -142,7 +156,6 @@ console.log(req.session)
         if(req.session.email){
             const details= await Userdetails.findOne({email:req.session.email})
             res.render('user/userdetails',{details})
-
         }else{
             res.redirect("/")
         }
@@ -150,7 +163,6 @@ console.log(req.session)
     userdetailspost:async(req,res)=>{
         userId=req.session.userid;
         const {username,userlastname,address,city,country,postcode,mobile,useremail}=req.body;
-        console.log(username);
         const userdetails= await Userdetails.findOneAndUpdate(  { email: req.session.email },  
         { $set: { name: username } } )
         const finduser=await Profile.findOne({userid:userId})

@@ -10,11 +10,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/admincss/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/admincss/showproduct.css">
     <title></title>
 </head>
 
 <body>
-    <form action="admin/userlist">   
+    <form action="admin/addadmin">
 
 
         <section class="main">
@@ -27,9 +28,9 @@
                     <li><a href="/admin/showproduct"><i class="fa fa-user"></i> Show Product</a></li>
                     <li><a href="/admin/category"><i class="fa fa-key"></i>Add Category</a></li> 
                     <li><a href="/admin/addproduct"><i class="fa fa-desktop"></i>Add Product</a></li>
-                    <li class="active"><a href="/admin/userlist"><i class="fa fa-gear"></i> User List</a></li>
+                    <li><a href="/admin/orderlist"><i class="fa fa-gear"></i> Order List</a></li>
                     <li><a href="/admin/banner"><i class="fa fa-bullhorn"></i>Banner</a></li>
-                    <li><a href="/admin/addadmin"><i class="fa fa-user"></i>Add a Admin</a></li>
+                    <li class="active"><a href="/admin/userlist"><i class="fa fa-user"></i>User List</a></li>
                     <li><a href="/login"><i class="fa fa-power-off"></i>Logout</a></li>
                 </ul>
                 <br><br>
@@ -45,7 +46,7 @@
                     <br>
                     <div class="head">
                         <div class="col-div-6">
-                            <p class="nav"> User List</p>
+                            <p class="nav"> Userlist</p>
                         </div>
 
                         <div class="col-div-6">
@@ -66,8 +67,50 @@
                     </div>
 
                     <div class="clearfix">
-                        <h1>userlist</h1>
+                        <h1>UserList</h1>
                     </div>
+
+                    <div class="product_list">
+                        <div class="product_table">
+                            <table class="main2">
+                                <div class="headname">
+                                <thead  >
+                                    <tr >
+                                        <th>User ID</th>
+                                        <th>User Name</th>
+                                        <th>User Email</th>
+                                        <th>User Number</th>
+                                        <th>User Password</th>
+                                    </tr>
+                                </thead>
+                            </div>
+                            <div class="productss">
+                                <tbody>
+                                    <% userlist.forEach(product => { %>
+                                        <tr>
+                                           
+                                            <td><%= product._id %></td>
+                                             <td><%= product.name%></td>
+                                            <td><%= product.email %></td>
+                                            <td><%= product.phone %></td>
+                                            <td><%= product.password %></td>
+                                          <!-- <td><a href="/admin/editproduct/<%=product._id %>">Edit</a></td>
+                                            <td> <a href="/admin/delete/<%= product._id %>"><button class="vaa">Delete</button></a></td> -->
+                                            <!-- <form action="/delete/<%= product._id %>" method="post"  onsubmit="return confirm('do you want to delete?')"></form> -->
+                                            <td>
+                                                <i class="bi bi-pencil-square"></i>
+                                            </td>
+                                            <td>
+                                                <i class="bi bi-trash-fill"></i>
+                                            </td>
+                                        </tr>
+                                    <% }); %>
+                                </tbody>
+                            </div>
+                            </table>
+                        </div>
+                    </div>
+
                     <br /><br /><br />
                     <!--  -->
 
@@ -89,12 +132,12 @@
               });
             });
             </script>
-            <!-- <script type="text/javascript">
-                $('li').click(function(){
-                $('li').removeClass("active");
-                $(this).addClass("active");
-            });
-            </script> -->
+            <!-- // <script type="text/javascript">
+            //     $('li').click(function(){
+            //     $('li').removeClass("active");
+            //     $(this).addClass("active");
+            // });
+            // </script> -->
     </form>
 </body>
 

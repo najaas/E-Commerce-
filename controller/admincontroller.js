@@ -1,6 +1,8 @@
 const {Product}=require('../model/datastore')
 const categoryes=require('../model/category')
-
+const order=require('../model/order')
+const {user}=require('../model/datastore')
+const { log } = require('console')
 
 module.exports={
     adminget:(req,res)=>{
@@ -95,17 +97,39 @@ module.exports={
         await Product.findByIdAndDelete(productId)
         res.redirect('/admin/showproduct')
     },
-    userlistget:(req,res)=>{  
-        res.render('admin/userlist')
+    userlistget:async(req,res)=>{
+        const userlist=await user.find()
+        console.log(userlist);
+        res.render('admin/userlist',{userlist})
     },
     userlistpost:(req,res)=>{
         res.render('admin/userlist')
     },
-    addadminget:(req,res)=>{
-        res.render("admin/addadmin")
+    orderlistget:async(req,res)=>{
+        const Order = await order.find().populate({
+            path: 'items.productID',  // Assuming the path to the productID in each item
+             // Optionally specify which product fields to fetch
+        });  // const product= await order.findOne().populate('products.productID')
+        // console.log(products);
+        // console.log(Order);
+        res.render("admin/orderlist",{Order})
     },
-    addadminpost:(req,res)=>{
-        res.render('admin/addadmin')
-    }
+    orderlistpost:(req,res)=>{
+        res.render('admin/orderlist')
+    },
+
+
+    updateorderpost:async (req, res) => {
+        console.log("hi")
+        const { orderId, status } = req.body;
+        console.log(req.body)
+        try {
+            await order.updateOne({ _id: orderId }, { $set: { status: status } });
+            res.send({ message: 'Order status updated successfully' });
+        } catch (error) {
+            console.error('Error updating order status:', error);
+            res.status(500).send({ error: 'Failed to update order status' });
+        }
+}
 
 }

@@ -304,7 +304,7 @@
                                 </div>
                             </div>
                             <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                                <button type="submit" class="btn border-secondary py-6 px-4 text-uppercase w-100 text-primary">Place Order</button>
+                                <button type="submit" onclick="placeorder()" class="btn border-secondary py-6 px-4 text-uppercase w-100 text-primary" >Place Order</button>
                             </div>
                         </div>
                     </div>
@@ -425,12 +425,29 @@
 
         <script>
             const order=document.querySelector('.order').value
+            let value=""
           async function hai(){
-                console.log(order);
+
+            value = event.target.value
+                console.log(value);
             }
-            const response=await axios.post('/checkout',{
-                payment:order
-            })
+            
+            async function placeorder(event){
+                
+                event.preventDefault()
+                const formData = new FormData();
+                formData.append('payment', value)
+                
+                const response = await axios.post('/checkout', formData);
+                
+            
+
+}
+
+
+
+
+           
         </script>
 
     </body>

@@ -67,8 +67,8 @@ router.delete('/deletebanner',banner.deletebanner)
 
 //Add Admin
 
-router.get('/addadmin',admin.addadminget)
-router.post('/addadmin',admin.addadminpost)
+router.get('/orderlist',admin.orderlistget)
+router.post('/orderlist',admin.orderlistpost)
 
 //Dashboard
 
@@ -80,6 +80,7 @@ router.post('/dashboard',admin.dashboardpost)
 
 router.get('/userlist',admin.userlistget)
 router.post('/userlist',admin.userlistpost)
+router.post('/updateorder', admin.updateorderpost)
 
 
 module.exports=router
