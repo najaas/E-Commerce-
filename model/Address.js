@@ -17,10 +17,10 @@ const profilSchema= new mongoose.Schema({
         type:String
     },
     Postcode:{
-        type:String
+        type:Number
     },
     Mobile:{
-        type:String
+        type:Number
     },
     Useremail:{
         type:String
@@ -31,4 +31,4 @@ const profilSchema= new mongoose.Schema({
     },
 })
 
-module.exports=mongoose.model('UserProfile', profilSchema )
+module.exports=mongoose.model('useraddress', profilSchema )

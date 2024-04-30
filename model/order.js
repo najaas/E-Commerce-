@@ -34,10 +34,14 @@ const orderSchema = new Schema({
     orderDate: {
         type: Date,
         default: Date.now
+    },
+    Address:{
+        type: mongoose.Schema.Types.ObjectId,
+            required: true,
+            ref: 'useraddress'
     }
 });
 
-// Create a model from the schema
 const Order = mongoose.model('order', orderSchema);
 
 module.exports = Order;

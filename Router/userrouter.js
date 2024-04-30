@@ -54,6 +54,16 @@ router.get('/userdetails',user.userdetailsget)
 router.post('/userdetails',user.userdetailspost)
 
 //Orderplaced Homedelivery
+
 router.get('/homedelivery',user.homedeliveryget)
+
+//show order
+
+router.get('/orderlist',user.orderlistget)
+
+//order status
+
+router.get('/orderstatus/:id',user.orderstatusget)
+
 
 module.exports=router;

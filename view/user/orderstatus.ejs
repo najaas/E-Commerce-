@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .brand-color {
+      color: #81c408;
+    }
+    .brand-bg {
+      background-color: #81c408;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <nav class="brand-bg py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="#" class="text-white font-bold text-xl">Pe-Cart</a>
+      <div>
+        <a href="#" class="text-white hover:text-green-300 mx-2">Home</a>
+        <a href="#" class="text-white hover:text-green-300 mx-2">Shop</a>
+        <a href="#" class="text-white hover:text-green-300 mx-2">Orders</a>
+        <a href="#" class="text-white hover:text-green-300 mx-2">Account</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-6 brand-color">Order Details</h1>
+
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="p-6">
+        <h2 class="text-xl font-bold mb-4 brand-color">Order : <%=orderstatus.id%></h2>
+        <p class="text-gray-600 mb-2">Order Date: <%=orderstatus.orderDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })%></p>
+        <p class="text-gray-600 mb-4">Total: <%=orderstatus.totalAmount.toFixed(2)%></p>
+
+        <div class="mb-6">
+          <h3 class="text-lg font-bold mb-2">Order Status</h3>
+          <p class="text-green-600 font-bold"><%=orderstatus.status%></p>
+        </div>
+
+        <div class="mb-6">
+          <h3 class="text-lg font-bold mb-2">Shipping Address</h3>
+          <p><%=orderstatus.Address.Username%> <%=orderstatus.Address.Userlastname%></p>
+          <p><%=orderstatus.Address.Address%>,<%=orderstatus.Address.City%>,<%=orderstatus.Address.Country%>,<%=orderstatus.Address.Postcode%></p>
+          <p><%=orderstatus.Address.Mobile%></p>
+        </div>
+
+        <div class="mb-6">
+          
+          <h3 class="text-lg font-bold mb-2">Order Items</h3>
+          <ul class="list-disc list-inside">
+              <%orderstatus.items.forEach((item)=>{%>
+              <li> <%=item.productID.name%> - <%=item.quantity%> - <%=item.productID.price%> </li>
+              <%})%>
+              <!-- <li>Product 2 - $39.99</li>
+              <li>Product 3 - $19.99</li> -->
+            </ul>
+        </div>
+        <div class="mt-6 flex justify-end">
+          <button class="brand-bg text-white py-2 px-4 rounded-md hover:bg-green-600">Reorder</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="brand-bg py-4 mt-8">
+    <div class="container mx-auto px-4 text-center text-white">
+      &copy; 2024 Pe-Cart
+    </div>
+  </footer>
+</body>
+</html>

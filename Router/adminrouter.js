@@ -80,6 +80,8 @@ router.post('/dashboard',admin.dashboardpost)
 
 router.get('/userlist',admin.userlistget)
 router.post('/userlist',admin.userlistpost)
+
+//admin Order Updated
 router.post('/updateorder', admin.updateorderpost)
 
 

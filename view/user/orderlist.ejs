@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Order List</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    .brand-color {
+      color: #81c408;
+    }
+    .brand-bg {
+      background-color: #81c408;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <nav class="brand-bg py-4">
+    <div class="container mx-auto px-4 flex justify-between items-center">
+      <a href="/userhome" class="text-white font-bold text-xl">Pe-Cart</a>
+      <div>
+        <a href="#" class="text-white hover:text-green-300 mx-2">Home</a>
+        <a href="#" class="text-white hover:text-green-300 mx-2">Shop</a>
+        <a href="#" class="text-white hover:text-green-300 mx-2">Orders</a>
+        <a href="#" class="text-white hover:text-green-300 mx-2">Account</a>
+      </div>
+    </div>
+  </nav>
+  
+  <div class="container mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold mb-6 brand-color">My Orders</h1>
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+        <%orderlist.forEach((order)=>{%>
+        <div class="p-6">
+          <h2 class="text-xl font-bold mb-4 brand-color">Order:<%=order._id%></h2>
+          <p class="text-gray-600 mb-2">Order Date: <%=order.orderDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %></p>
+          <p class="text-gray-600 mb-4">Total: <%=order.totalAmount.toFixed(2)%></p>
+          <ul class="list-disc list-inside">
+
+
+            <%order.items.forEach((product)=>{%>
+
+              <div class="product_list">
+                <div class="product_table">
+                    <table class="main2">
+                        <div class="headname">
+                        <thead  >
+                            <tr >
+                                <th>Product Image </th>
+                                <th>Product Name</th>
+                                <th>Product Quantity</th>
+                                <th>Product Price</th>
+                               
+                            </tr>
+                        </thead>
+                    </div>
+                    <div class="productss">
+                        <tbody>
+                                <tr>
+
+                                    <td>
+                                            <img src="/image/<%=product.productID.image[0]    %>"alt="product.name" width="70px">
+
+                                    </td>
+
+                                    <td><%= product.productID.name%></td>
+                                    <td><%=product.quantity%></td>
+                                    <td><%=product.productID.price%></td>
+                                  
+
+
+                                   
+                     
+                                </tr>
+                        </tbody>
+                    </div>
+                    </table>
+                </div>
+            </div>
+              <%})%>
+
+
+
+          </ul>
+          <div class="mt-6 flex justify-end">
+           <a href="/orderstatus/<%=order.id%>"><button class="brand-bg text-white py-2 px-4 rounded-md hover:bg-green-600 mr-2">View Details</button></a> 
+          <button class="brand-bg text-white py-2 px-4 rounded-md hover:bg-green-600">Reorder</button>
+        </div>
+      </div>
+      <%})%>
+    </div>
+  </div>
+  <footer class="brand-bg py-4 mt-8">
+    <div class="container mx-auto px-4 text-center text-white">
+      &copy; 2024 Pe-Cart
+    </div>
+  </footer>
+</body>
+</html>

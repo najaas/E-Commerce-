@@ -15,8 +15,16 @@ const  userSchema = new mongoose.Schema({
     },
     confirmpassword:{
         type: String
+    },
+    sex:{
+        type:String
+    },
+    dob:{
+        type:String
+    },
+    userid:{
+        type:String
     }
-   
 })
 
 module.exports = mongoose.model('userlist', userSchema);

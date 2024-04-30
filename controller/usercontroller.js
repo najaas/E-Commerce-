@@ -5,7 +5,7 @@ const categorymodel=require('../model/category')
 const wishlist=require('../model/wishlist')
 const cartmodel=require('../model/cart')
 const Userdetails=require('../model/userdetails')
-const Profile=require('../model/userprofile')
+const useraddress=require('../model/Address')
 const Order = require("../model/order")
 // const {user}=require('../model/datastore')
 
@@ -76,7 +76,7 @@ console.log(req.session)
         const userid=req.session.userid
         if(req.session.email){
             const User=await Userdetails.findOne({email:req.session.email})
-            const modifydetails=await Profile.findOne({Useremail:req.session.email})
+            const modifydetails=await useraddress.findOne({Useremail:req.session.email})
            res.render('user/profile',{User,modifydetails : modifydetails || ''})
             }else{
                 res.redirect('/')
@@ -89,7 +89,7 @@ console.log(req.session)
         try {
             if(req.session.email){
                 const cart = await cartmodel.findOne({ userid: req.session.userid }).populate('products.productId');
-                const userprofile= await Profile.findOne({Useremail:req.session.email})
+                const userprofile= await useraddress.find()
                 res.render('user/checkout', { cart,userprofile});
             }else{
                 res.redirect('/')
@@ -101,20 +101,12 @@ console.log(req.session)
     checkoutpost:async(req,res)=>{
         if(req.session.email){
             userId=req.session.userid;
-            const {username,userlastname,address,city,country,postcode,mobile,useremail,Delivery}=req.body;
-            const finduser=await Profile.findOne({userid:userId})
-           const orderaddress={
-            Username:username,
-            Userlastname:userlastname,
-            Address:address,
-            City:city,
-            Country:country,
-            Postcode:postcode,
-            Mobile:mobile,
-            Useremail:useremail,
-            userid:userId
-           }
-         req.session.userorder =orderaddress
+            const {select,Delivery}=req.body;
+            console.log(select);
+            const finduser=await useraddress.findOne({userid:userId})
+           
+        //    const userdetails=await Order.
+        //  req.session.userorder =orderaddress
         if (Delivery!="paypal"){
 const userid  = finduser.userid
 const cart = await cartmodel.findOne({ userid: req.session.userid }).populate('products.productId');
@@ -127,6 +119,7 @@ const order = new Order({
     customerId: userid,
     items: totalarray,
     totalAmount: cart.total,
+    Address:select,
     status: 'pending'  // Default status
 });
 
@@ -163,23 +156,23 @@ return res.redirect("/homedelivery")
     userdetailspost:async(req,res)=>{
         userId=req.session.userid;
         const {username,userlastname,address,city,country,postcode,mobile,useremail}=req.body;
-        const userdetails= await Userdetails.findOneAndUpdate(  { email: req.session.email },  
-        { $set: { name: username } } )
-        const finduser=await Profile.findOne({userid:userId})
-        if(finduser){
-            const Userprofile={
-                Username:username,
-                Userlastname:userlastname,
-                Address:address,
-                City:city,
-                Country:country,
-                Postcode:postcode,
-                Mobile:mobile,
-                Useremail:useremail,
-                userid:userId
-            }
-            const userprofile= await Profile.findByIdAndUpdate(finduser._id,Userprofile)
-        }else{
+        // const userdetails= await Userdetails.findOneAndUpdate(  { email: req.session.email },  
+        // { $set: { name: username } } )
+        // const finduser=await useraddress.findOne({userid:userId})
+        // if(finduser){
+        //     const Userprofile={
+        //         Username:username,
+        //         Userlastname:userlastname,
+        //         Address:address,
+        //         City:city,
+        //         Country:country,
+        //         Postcode:postcode,
+        //         Mobile:mobile,
+        //         Useremail:useremail,
+        //         userid:userId
+        //     }
+        //     const userprofile= await useraddress.findByIdAndUpdate(finduser._id,Userprofile)
+        // }else{
         const Userprofile={
             Username:username,
             Userlastname:userlastname,
@@ -191,9 +184,10 @@ return res.redirect("/homedelivery")
             Useremail:useremail,
             userid:userId
         }
-        const userprofile= await Profile.create(Userprofile)
+        const userprofile= await useraddress.create(Userprofile)
         userprofile.save()
-    }
+    // }.
+
     res.redirect('/profile')
     },
     homedeliveryget:(req,res)=>{
@@ -202,5 +196,34 @@ return res.redirect("/homedelivery")
         }else{
             res.redirect('/')
         }
+    },
+    orderlistget: async (req, res) => {
+        try {
+            const orderlist = await Order.find().populate({ path: 'items.productID' });
+    
+            res.render('user/orderlist', { orderlist });
+        } catch (error) {
+            console.error("Failed to retrieve orders:", error);
+    
+            res.status(500).send("Error fetching order details.");
+        }
+    },
+    orderstatusget : async (req, res) => {
+        try {
+            const productId = req.params.id;
+            console.log(productId);
+    
+            const orderstatus = await Order.findById(productId)
+                .populate({ path: 'Address', model: 'useraddress' })  // Assuming 'UserAddress' is the model name
+                .populate({ path: 'items.productID', model:"products" }); // Assuming 'Product' is the model name
+    
+            console.log(orderstatus);
+            res.render('user/orderstatus', { orderstatus });
+        } catch (error) {
+            console.error('Error fetching order status:', error);
+            res.status(500).send('An error occurred while retrieving order status');
+        }
     }
+    
+    
 }
