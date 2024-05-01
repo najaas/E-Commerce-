@@ -24,6 +24,8 @@
         <a href="#" class="text-white hover:text-green-300 mx-2">Orders</a>
         <a href="#" class="text-white hover:text-green-300 mx-2">Account</a>
       </div>
+     <a href="/profile"><button class="brand-bg text-white py-2 px-4 rounded-md hover:bg-green-600">Back</button></a>
+
     </div>
   </nav>
   
@@ -34,7 +36,7 @@
         <div class="p-6">
           <h2 class="text-xl font-bold mb-4 brand-color">Order:<%=order._id%></h2>
           <p class="text-gray-600 mb-2">Order Date: <%=order.orderDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) %></p>
-          <p class="text-gray-600 mb-4">Total: <%=order.totalAmount.toFixed(2)%></p>
+          <p class="text-gray-600 mb-4">Total: <%const total=order.totalAmount+50%><%=total.toFixed(2)%></p>
           <ul class="list-disc list-inside">
 
 
@@ -84,7 +86,6 @@
           </ul>
           <div class="mt-6 flex justify-end">
            <a href="/orderstatus/<%=order.id%>"><button class="brand-bg text-white py-2 px-4 rounded-md hover:bg-green-600 mr-2">View Details</button></a> 
-          <button class="brand-bg text-white py-2 px-4 rounded-md hover:bg-green-600">Reorder</button>
         </div>
       </div>
       <%})%>

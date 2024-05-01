@@ -7,7 +7,14 @@ const cartmodel=require('../model/cart')
 const Userdetails=require('../model/userdetails')
 const useraddress=require('../model/Address')
 const Order = require("../model/order")
-// const {user}=require('../model/datastore')
+// const Rezorepay=require('razorpay')
+const Razorpay = require('razorpay')
+
+const rezorepay=new Razorpay({
+key_id:process.env.keyid,
+key_secret:process.env.keysecret
+})
+const {user}=require('../model/datastore')
 
 module.exports={
     userget:async(req,res)=>{
@@ -100,16 +107,20 @@ console.log(req.session)
     },
     checkoutpost:async(req,res)=>{
         if(req.session.email){
-            userId=req.session.userid;
-            const {select,Delivery}=req.body;
-            console.log(select);
+            // console.log(req.body)
+           const userId=req.session.userid;
+            const {payment,address,username,userlastname,postcode,mobile,city,country,}=req.body;
+            console.log(address);
+            // console.log(username);
+            // console.log(select);
             const finduser=await useraddress.findOne({userid:userId})
-           
+     
         //    const userdetails=await Order.
         //  req.session.userorder =orderaddress
-        if (Delivery!="paypal"){
-const userid  = finduser.userid
+        const userid  = finduser.userid
 const cart = await cartmodel.findOne({ userid: req.session.userid }).populate('products.productId');
+        if (payment!="Paypal"){
+
 let totalarray =[]
 cart.products.forEach((ele)=>{
 totalarray.push({productID:ele.productId._id,quantity:ele.quantity})
@@ -119,7 +130,13 @@ const order = new Order({
     customerId: userid,
     items: totalarray,
     totalAmount: cart.total,
-    Address:select,
+    Address:address,
+    Userlastname:userlastname,
+    Postcode:postcode,
+    Mobile:mobile,
+    City:city,
+    Country:country,
+    Username:username,
     status: 'pending'  // Default status
 });
 
@@ -127,8 +144,36 @@ await order.save()
 cart.products=[]
 cart.total=0
 cart.save()
-return res.redirect("/homedelivery")
+return res.status(200).json({cod:true})
+        }else{
+            let totalarray =[]
+            cart.products.forEach((ele)=>{
+            totalarray.push({productID:ele.productId._id,quantity:ele.quantity})
+            })
+            
+
+            const order = new Order({
+                customerId: userid,
+                items: totalarray,
+                totalAmount: cart.total,
+                Address:address,
+                Userlastname:userlastname,
+                Postcode:postcode,
+                Mobile:mobile,
+                City:city,
+                Country:country,
+                Username:username,
+                status: 'pending'  // Default status
+            });
+
+            
+return res.status(200).json({cod:false, order})
+
+
         }
+
+
+
         }else{
             res.redirect('/')
         }
@@ -214,7 +259,7 @@ return res.redirect("/homedelivery")
             console.log(productId);
     
             const orderstatus = await Order.findById(productId)
-                .populate({ path: 'Address', model: 'useraddress' })  // Assuming 'UserAddress' is the model name
+                // .populate({ path: 'Address', model: 'useraddress' })  // Assuming 'UserAddress' is the model name
                 .populate({ path: 'items.productID', model:"products" }); // Assuming 'Product' is the model name
     
             console.log(orderstatus);
@@ -223,7 +268,12 @@ return res.redirect("/homedelivery")
             console.error('Error fetching order status:', error);
             res.status(500).send('An error occurred while retrieving order status');
         }
+    },
+    profiledetailsget:(req,res)=>{
+        res.render('user/profiledetails')
+    },
+    profiledetailspost:(req,res)=>{
+        console.log('heiiii');
+        res.redirect('/profile')
     }
-    
-    
 }

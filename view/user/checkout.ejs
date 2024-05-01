@@ -27,6 +27,9 @@
 
 	   <!-- Template Stylesheet -->
 	   <link href="/css/usercss/userhome.css" rel="stylesheet">
+       <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+       
     </head>
 
     <body>
@@ -128,72 +131,53 @@
         <div class="container-fluid py-5">
             <div class="container py-5">
                 <h1 class="mb-4">Billing details</h1>
-                <form action="/checkout" method="post">
+                <form  onsubmit="handleCheckout(event)">
                     <div class="row">
-                        <%userprofile.forEach((profile)=>{%>
+                    
 
                         <div class="col-md-12 col-lg-6 col-xl-7">
                             <div class="row">
                                 <div class="col-md-12 col-lg-6">
                                     <div class="form-item w-100">
                                         <label class="form-label my-3">First Name<sup>*</sup></label>
-                                        <input type="text" class="form-control" value="<%=profile.Username%>" name="username" disabled>
+                                        <input type="text" class="form-control"  name="username" >
                                     </div>
                                 </div>
                                 <div class="col-md-12 col-lg-6">
                                     <div class="form-item w-100">
                                         <label class="form-label my-3">Last Name<sup>*</sup></label>
-                                        <input type="text" class="form-control" value="<%=profile.Userlastname%>" name="userlastname"  disabled>
+                                        <input type="text" class="form-control" name="userlastname" >
                                     </div>
                                 </div>
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Address <sup>*</sup></label>
-                                <input type="text" class="form-control" value="<%=profile.Address%>" name="address" placeholder="House Number Street Name"  disabled>
+                                <input type="text" class="form-control"name="address" placeholder="House Number Street Name"  >
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Town/City<sup>*</sup></label>
-                                <input type="text" value="<%=profile.City%>" class="form-control" name="city" disabled>
+                                <input type="text"  class="form-control" name="city" >
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Country<sup>*</sup></label>
-                                <input type="text" value="<%=profile.Country%>" class="form-control" name="country" disabled>
+                                <input type="text"  class="form-control" name="country" >
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Postcode/Zip<sup>*</sup></label>
-                                <input type="text" value="<%=profile.Postcode%>" class="form-control" name="Postcode" disabled>
+                                <input type="text"class="form-control" name="postcode" >
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Mobile<sup>*</sup></label>
-                                <input type="tel" value="<%=profile.Mobile%>" class="form-control" name="mobile" disabled>
+                                <input type="tel" class="form-control" name="mobile" >
                             </div>
                             <div class="form-item">
                                 <label class="form-label my-3">Email Address<sup>*</sup></label>
-                                <input type="email" value="<%=profile.Useremail%>" class="form-control" name="useremail" disabled>
+                                <input type="email"  class="form-control" name="useremail" >
                             </div>
                             <hr>
-                            <!-- <div class="form-check my-3">
-                                <input type="checkbox" class="form-check-input" id="Account-1" name="Accounts" value="Accounts">
-                                <label class="form-check-label" for="Account-1">Create an account?</label>
-                            </div>
-                            <hr>
-                            <div class="form-check my-3">
-                                <input class="form-check-input" type="checkbox" id="Address-1" name="Address" value="Address">
-                                <label class="form-check-label" for="Address-1">Ship to a different address?</label>
-                            </div> -->
-                           
-                            <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
-                                <a href="/userdetails"><h4 style="border: 1px solid black;">Add New Address</h4></a> 
-                                <div class="col-12">
-                                    <div class="form-check text-start my-3">
-                                        <input type="radio" class="form-check-input bg-primary border-0 order" value="<%=profile._id%>" name="select" required>
-                                        <label class="form-check-label"  for="Delivery-1">Select</label>
-                                    </div>
-                                </div>
-                                
-                            </div>
+                        
                         </div>
-                        <%})%>
+                  
 
                         <div class="col-md-12 col-lg-6 col-xl-5">
                             <div class="table-responsive">
@@ -224,28 +208,6 @@
                                             </tr>
 
                                             <%})%> 
-                                        <!-- <tr>
-                                            <th scope="row">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <img src="img/vegetable-item-5.jpg" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
-                                                </div>
-                                            </th>
-                                            <td class="py-5">Potatoes</td>
-                                            <td class="py-5">$69.00</td>
-                                            <td class="py-5">2</td>
-                                            <td class="py-5">$138.00</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">
-                                                <div class="d-flex align-items-center mt-2">
-                                                    <img src="img/vegetable-item-3.png" class="img-fluid rounded-circle" style="width: 90px; height: 90px;" alt="">
-                                                </div>
-                                            </th>
-                                            <td class="py-5">Big Banana</td>
-                                            <td class="py-5">$69.00</td>
-                                            <td class="py-5">2</td>
-                                            <td class="py-5">$138.00</td>
-                                        </tr> -->
                                         <tr>
                                             <th scope="row">
                                             </th>
@@ -267,18 +229,11 @@
                                                 <p class="mb-0 text-dark py-4">Shipping</p>
                                             </td>
                                             <td colspan="3" class="py-5">
-                                                <!-- <div class="form-check text-start">
-                                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-1" name="Shipping-1" value="Shipping">
-                                                    <label class="form-check-label" for="Shipping-1">Free Shipping</label>
-                                                </div> -->
+                                             
                                                 <div class="form-check text-start">
-                                                    <!-- <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-2" name="Shipping-1" value="Shipping"> -->
                                                     <label class="form-check-label" for="Shipping-2">Flat rate: 50.00</label>
                                                 </div>
-                                                <!-- <div class="form-check text-start">
-                                                    <input type="checkbox" class="form-check-input bg-primary border-0" id="Shipping-3" name="Shipping-1" value="Shipping">
-                                                    <label class="form-check-label" for="Shipping-3">Local Pickup: $8.00</label>
-                                                </div> -->
+                                               
                                             </td>
                                         </tr>
                                         <tr>
@@ -302,7 +257,7 @@
                             <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                 <div class="col-12">
                                     <div class="form-check text-start my-3">
-                                        <input type="radio" onclick="hai()" class="form-check-input bg-primary border-0 order" id="Delivery-1" name="Delivery" value="Delivery" required>
+                                        <input type="radio"  class="form-check-input bg-primary border-0 order" id="Delivery-1" name="Delivery" value="Delivery" required>
                                         <label class="form-check-label"  for="Delivery-1">Cash On Delivery</label>
                                     </div>
                                 </div>
@@ -310,13 +265,13 @@
                             <div class="row g-4 text-center align-items-center justify-content-center border-bottom py-3">
                                 <div class="col-12">
                                     <div class="form-check text-start my-3">
-                                        <input type="radio" class="form-check-input bg-primary border-0 order". id="Paypal-1" onclick="hai()" name="Delivery" value="Paypal" required>
+                                        <input type="radio" class="form-check-input bg-primary border-0 order". id="Paypal-1"    name="Delivery" value="Paypal" required>
                                         <label class="form-check-label" for="Paypal-1">Paypal</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row g-4 text-center align-items-center justify-content-center pt-4">
-                                <button type="submit" onclick="placeorder()" class="btn border-secondary py-6 px-4 text-uppercase w-100 text-primary" >Place Order</button>
+                                <button type="submit"  class="btn border-secondary py-6 px-4 text-uppercase w-100 text-primary" >Place Order</button>
                             </div>
                         </div>
                     </div>
@@ -407,9 +362,7 @@
                         <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
                     </div>
                     <div class="col-md-6 my-auto text-center text-md-end text-white">
-                        <!--/*** This template is free as long as you keep the below author’s credit link/attribution link/backlink. ***/-->
-                        <!--/*** If you'd like to use the template without the below author’s credit link/attribution link/backlink, ***/-->
-                        <!--/*** you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". ***/-->
+                     
                         Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
                     </div>
                 </div>
@@ -435,32 +388,91 @@
     <!-- Template Javascript -->
     <script src="/js/main.js"></script>
 
-        <script>
-            const order=document.querySelector('.order').value
-            let value=""
-          async function hai(){
+       
+<script>
+    async function handleCheckout(event) {
+        event.preventDefault();
 
-            value = event.target.value
-                console.log(value);
+   
+
+        // Append user details
+        let dataObject = {
+        username: document.querySelector('input[name="username"]').value,
+        userlastname: document.querySelector('input[name="userlastname"]').value,
+        address: document.querySelector('input[name="address"]').value,
+        city: document.querySelector('input[name="city"]').value,
+        country: document.querySelector('input[name="country"]').value,
+        postcode: document.querySelector('input[name="postcode"]').value,
+        mobile: document.querySelector('input[name="mobile"]').value,
+        useremail: document.querySelector('input[name="useremail"]').value,
+        payment: document.querySelector('input[name="Delivery"]:checked').value
+    }
+        // Debugging: Log FormData content
+     
+        
+
+        try {
+        const response = await axios.post('/checkout', JSON.stringify(dataObject), {
+            headers: {
+                'Content-Type': 'application/json'
             }
-            
-            async function placeorder(event){
-                
-                event.preventDefault()
-                const formData = new FormData();
-                formData.append('payment', value)
-                
-                const response = await axios.post('/checkout', formData);
-                
-            
+        });
+      
+
+if(response.data.cod){
+
+
+window.location.href=" /homedelivery"
+
+}else{
+
+    var options = {
+        "key": "rzp_test_kD9KV6wiy1vLWx", // Enter the Key ID generated from the Razorpay Dashboard
+        "amount": "5000", // Amount is in currency subunits. Default currency is INR. Hence, 5000 refers to 5000 paise or ₹50.
+        "currency": "INR",
+        "name": "Pe -Cart",
+        "description": "Test Transaction",
+        "image": "https://example.com/your_logo",
+        "order_id": response.data.order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response){
+            alert(response.razorpay_payment_id);
+            alert(response.razorpay_order_id);
+            alert(response.razorpay_signature);
+            // Handle post-payment logic here
+        },
+        "prefill": {
+            "name": "Gaurav Kumar",
+            "email": "gaurav.kumar@example.com",
+            "contact": "9999999999"
+        },
+        "notes": {
+            "address": "Razorpay Corporate Office"
+        }
+        
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+        alert(response.error.code);
+        alert(response.error.description);
+        alert(response.error.source);
+        alert(response.error.step);
+        alert(response.error.reason);
+        alert(response.error.metadata.order_id);
+        alert(response.error.metadata.payment_id);
+    });
+    rzp1.open();
+
+
 
 }
 
 
-
-
-           
-        </script>
+    } catch (error) {
+        console.error("Payment failed:", error);
+        alert('Payment failed, please try again.');
+    }
+}
+</script>
 
     </body>
 

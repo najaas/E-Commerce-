@@ -65,5 +65,10 @@ router.get('/orderlist',user.orderlistget)
 
 router.get('/orderstatus/:id',user.orderstatusget)
 
+//profileDetails
+
+router.get('/profiledetails',user.profiledetailsget)
+router.post('/profiledetails',user.profiledetailspost)
+
 
 module.exports=router;

@@ -36,9 +36,21 @@ const orderSchema = new Schema({
         default: Date.now
     },
     Address:{
-        type: mongoose.Schema.Types.ObjectId,
-            required: true,
-            ref: 'useraddress'
+        type: String,
+        required: true
+    },
+    Username:{
+        type:String
+    },Userlastname:{
+        type:String
+    },Postcode:{
+        type:String
+    },Mobile:{
+        type:String
+    },City:{
+        type:String
+    },Country:{
+        type:String
     }
 });
 
