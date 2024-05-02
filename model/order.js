@@ -19,7 +19,6 @@ const orderSchema = new Schema({
             required: true,
             min: 1
         },
-      
     }],
     totalAmount: {
         type: Number,

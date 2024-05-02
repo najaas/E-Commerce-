@@ -1,0 +1,30 @@
+     
+.bg-drk-purple{
+    background: purple;
+  }
+  .text-white::placeholder {
+    color: white;
+    opacity: 1; /* Firefox */
+  }
+  
+  .text-white:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color: white;
+  }
+  
+  .text-white::-ms-input-placeholder { /* Microsoft Edge */
+   color: white;
+  }
+  .bd-placeholder-img {
+          font-size: 1.125rem;
+          text-anchor: middle;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+        }
+  
+        @media (min-width: 768px) {
+          .bd-placeholder-img-lg {
+            font-size: 3.5rem;
+          }
+        }

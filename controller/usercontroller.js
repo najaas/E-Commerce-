@@ -9,6 +9,7 @@ const useraddress=require('../model/Address')
 const Order = require("../model/order")
 // const Rezorepay=require('razorpay')
 const Razorpay = require('razorpay')
+const profile=require('../model/profile')
 
 const rezorepay=new Razorpay({
 key_id:process.env.keyid,
@@ -83,8 +84,8 @@ console.log(req.session)
         const userid=req.session.userid
         if(req.session.email){
             const User=await Userdetails.findOne({email:req.session.email})
-            const modifydetails=await useraddress.findOne({Useremail:req.session.email})
-           res.render('user/profile',{User,modifydetails : modifydetails || ''})
+            const Profile=await profile.findOne({email:req.session.email})
+           res.render('user/profile',{User,Profile})
             }else{
                 res.redirect('/')
             }
@@ -269,10 +270,15 @@ return res.status(200).json({cod:false, order})
             res.status(500).send('An error occurred while retrieving order status');
         }
     },
-    profiledetailsget:(req,res)=>{
-        res.render('user/profiledetails')
+    profiledetailsget:async(req,res)=>{
+        const userprofile=await profile.find()
+        res.render('user/profiledetails',{userprofile})
     },
-    profiledetailspost:(req,res)=>{
+    profiledetailspost:async(req,res)=>{
+        const {username,userlastname,dob,gender,mobile}=req.body
+        console.log(req.body);
+        const pro={username,userlastname,dob,gender,mobile}
+        const Profile= await profile.create(pro)
         console.log('heiiii');
         res.redirect('/profile')
     }

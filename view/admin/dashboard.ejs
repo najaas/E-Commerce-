@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="/css/admincss/home.css" type="text/css">
+    <link rel="stylesheet" href="/css/admincss/dashboard.css">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css" rel="stylesheet"> -->
     <title></title>
 </head>
 
@@ -65,8 +67,17 @@
                         <div class="clearfix"></div>
                     </div>
 
+
+
+                    <div>
+                        <canvas id="myChart"></canvas>
+                      </div>
+
+                    
+
+
+                 
                     <div class="clearfix">
-                        <h1>dashboard</h1>
                     </div>
                     <br /><br /><br />
                     <!--  -->
@@ -95,6 +106,37 @@
                 $(this).addClass("active");
             });
             </script> -->
+
+
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const categoryLabels = JSON.parse('<%= labels %>'.replace(/&#34;/g, '"'));    
+ console.log(categoryLabels);
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: categoryLabels,
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+
+
     </form>
 </body>
 

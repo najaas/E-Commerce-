@@ -50,9 +50,13 @@ module.exports={
             console.log(err);
         }
     },
-    dashboardget:(req,res)=>{
-        res.render('admin/dashboard')
+    dashboardget: async(req, res) => {
+        const categories = await categoryes.find();
+        const labels = categories.map(cat => cat.category);
+    console.log(labels);
+        res.render('admin/dashboard', { labels: JSON.stringify(labels)});
     },
+    
     dashboardpost:(req,res)=>{
         res.render('admin/dashboard')
     },
